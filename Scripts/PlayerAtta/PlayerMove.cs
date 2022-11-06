@@ -4,7 +4,7 @@ using System;
 using UnityEngine;
 
 
-namespace OdditsseyEngine
+namespace AwesomsseyEngine
 {
     public class PlayerMove : MonoBehaviour
     {
@@ -181,7 +181,7 @@ namespace OdditsseyEngine
 
 
 
-            ////JUMP CODE !!!!!!!!!
+            ///JUMP CODE !!!!!!!!!
             if(Input.GetButton("Jump") == true && groundCheck.grounded == true && jumpingState == false && jumpButtonPressed == false)
             {
                 attaAnim.SetBool("Jump", true);
@@ -210,7 +210,7 @@ namespace OdditsseyEngine
             }
 
 
-            if(kladderOn == false)
+            if(kladderOn == false)///DO VELCOITY CHECK WHEN NOT ON LADDER
             {
                 VelocityControl();
             }

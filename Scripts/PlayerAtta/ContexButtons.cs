@@ -2,10 +2,17 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace OdditsseyEngine
+namespace AwesomsseyEngine
 {
+    /// <summary>
+    /// CLASS CONTROLS APPY 1 LEVEL CONTEXT
+    /// </summary>
     public class ContexButtons : MonoBehaviour
     {
+        [Header("LEVEL Context")]
+        [SerializeField] bool appy;
+        
+        [Header("Options")]
         [SerializeField] GameObject appleThrow;
         [SerializeField] float appleSpeed;
         [SerializeField] Animator attaAnim;
@@ -15,6 +22,8 @@ namespace OdditsseyEngine
         [Header("Scripts")]
         [SerializeField] AttaItemDsp itemDsp;
         [SerializeField] PlayerPickup playerPickup;
+        ///FUTURE LEVELMAP SCRIPT - FEEEDS BOOL STATES
+        ///SEPERATE CONTEXTBUTTONS SCRIPTS 
         // Start is called before the first frame update
         void Start()
         {
@@ -26,10 +35,14 @@ namespace OdditsseyEngine
         // Update is called once per frame
         void Update()
         {
-            if (Input.GetButtonDown("Throw") == true && playerPickup.appleNumbers > 0 && throwingState == false && Input.GetAxis("Vertical") >= 0) ///ensure Not Sliding
+            if (appy == true)///APPY LEVEL CONTEXT
             {
-                throwingState = true;
-          
+
+                if (Input.GetButtonDown("Throw") == true && playerPickup.appleNumbers > 0 && throwingState == false && Input.GetAxis("Vertical") >= 0) ///ensure Not Sliding
+                {
+                    throwingState = true;
+
+                }
             }
      
 

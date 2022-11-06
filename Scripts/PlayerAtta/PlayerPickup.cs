@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace OdditsseyEngine
+namespace AwesomsseyEngine
 
 {
     public class PlayerPickup : MonoBehaviour

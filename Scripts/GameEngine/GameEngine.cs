@@ -2,21 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace OdditsseyEngine
+namespace AwesomsseyEngine
 {
     public class GameEngine : MonoBehaviour
     {
-
-        [SerializeField] float money;
-        [SerializeField] GameObject attPlayer;
-        [SerializeField] PlayerMove playerMove;
-        [SerializeField] GameObject gameEngine;
+        [Header("Vars To Save And Feed")]
+        [Tooltip("GameEninge Health")]
+        [SerializeField] public float attaCurrentHealthGE;
+        [Tooltip("GameEninge Health")]
+        [SerializeField] public float attaMaxHealthGE;
+        [SerializeField] public float moneyGE;
+        [Header("Objects DONT DESTROY")] ///THESE ARE NOT GAMEOBJECTS TO NOT DESTORY ---THAT IS DONE IN AWAKE WITH NEW GAMEO?BJECTS
+        [SerializeField] GameObject attPlayer;///SAVE
+        [SerializeField] PlayerMove playerMove;///SAVE 
+        [SerializeField] GameObject gameEngine; ///SAVE
+        [SerializeField] GameObject guiCanvas; ///KEEP GUI - SAVE AND LOAD GUI
         [SerializeField] bool playerLoaded;
 
-        private void Awake()
+        [Header("Scripts")]
+        [SerializeField] AttaHealth attaHealth; ///SCRIPT TO SEND HEALTH TO -- OPTIONJ 2 ATTAHEALTH PULLS AND SENDS TO SAVEMASTER
+        [SerializeField] GUIUpdater guiUpdater;///SAVE
+
+        private void Awake()///DETECT AND DESTROY EXTRA GE ATTA OBJ
         {
             GameObject[] gameObject = GameObject.FindGameObjectsWithTag("GameEngine");
             GameObject[] attObj = GameObject.FindGameObjectsWithTag("Player");
+            GameObject[] guiBottom = GameObject.FindGameObjectsWithTag("GUIBottom");
 
             if(gameObject.Length > 1)
             {
@@ -27,21 +38,27 @@ namespace OdditsseyEngine
             {
                 Destroy(attObj[1]);
             }
+            if (guiBottom.Length > 1)
+            {
+                Destroy(guiBottom[1]);
+            }
 
             if (playerLoaded == false)
             {
                 Instantiate(attPlayer, transform.position, transform.localRotation);
                 playerLoaded = true;
             }
-            playerMove = FindObjectOfType<PlayerMove>();
+            playerMove = FindObjectOfType<PlayerMove>();///MUST GO LAST TO LOAD ALL DATA FROM PREVIOUS DATA
+            guiUpdater = FindObjectOfType<GUIUpdater>();
         }
 
 
         // Start is called before the first frame update
-        void Start()
+        void Start()///DDOL
         {
             DontDestroyOnLoad(playerMove.gameObject);
             DontDestroyOnLoad(this.gameObject);
+            DontDestroyOnLoad(guiCanvas);///GUICANVAS IS OBJECT TO SAVE ///GUIUPDATER IS SCRIPT ON GAMEENGINE
            
         }
 

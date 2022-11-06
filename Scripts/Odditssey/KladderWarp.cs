@@ -4,7 +4,7 @@ using UnityEditor.SceneManagement;
 using UnityEngine.SceneManagement;
 using UnityEngine;
 
-namespace OdditsseyEngine
+namespace AwesomsseyEngine
 {
 
 
