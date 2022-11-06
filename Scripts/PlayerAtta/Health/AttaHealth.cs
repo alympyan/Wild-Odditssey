@@ -86,6 +86,12 @@ namespace AwesomsseyEngine
             {
                 CurrentPlayerMaxHealth = 10f;
             }
+
+            ///HEALTH MAX LIMIT
+            if(currentPlayerHealth >= CurrentPlayerMaxHealth)
+            {
+                currentPlayerHealth = CurrentPlayerMaxHealth;
+            }
         }
     }
 }
