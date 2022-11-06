@@ -66,8 +66,8 @@ namespace AwesomsseyEngine
 
         // Update is called once per frame
         void Update()
-        {
-            if(Input.GetButtonDown("Shoot") && shootState == false && shootingDontSpawn == false) ///FUTURE BOOL FOR CONTEXT
+        {///Check for Shoot Input, shootstate, the toggleDontSpawn, and > 0 ammo
+            if(Input.GetButtonDown("Shoot") && shootState == false && shootingDontSpawn == false && seedAmmoCurrent > 0) ///FUTURE BOOL FOR CONTEXT
             {
                 shootState = true;
                
@@ -81,7 +81,7 @@ namespace AwesomsseyEngine
         private void FixedUpdate() ///SET SHOOTINGDOWNTSPAWN TRUE TO STOP SPAMMING!!!
         {
             if (shootState == true && deviSeeds == false && slappingSeeds == false && shootingDontSpawn == false) ///CHECK FOR TYPE OF SEED AND PASS TO FUNC
-            {
+            {///POWERSEEDS
                 shootingDontSpawn = true;
                 shootAnimation.clip = yellowShotAnim;
 
@@ -106,7 +106,7 @@ namespace AwesomsseyEngine
         {
             shootingDontSpawn = true; ///SET THIS BOOL TO STOP SPAMMING
             //shootAnimation.Play();
-            shootAnim.SetBool("Shoot", true);
+            shootAnim.SetBool("Shoot", true);///CURRENT ANIMATION IMPLEMENTAITO - MIGHT SWITCH TO ANIMATION CLIPS
             if (transform.right == Vector3.right) { rightDir = 1f; }///GATHER TRANSFORM RIGHT
           
             if (transform.right == Vector3.left)
@@ -162,6 +162,13 @@ namespace AwesomsseyEngine
            if(ammoUp2 == true)
             {
                 seedAmmoMax = 8;
+            }
+
+
+           ///Prevent MAX Ammo being exceeded
+           if(seedAmmoCurrent >= seedAmmoMax)
+            {
+                seedAmmoCurrent = seedAmmoMax;
             }
         }
 
