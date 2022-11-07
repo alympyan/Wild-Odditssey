@@ -9,6 +9,8 @@ namespace AwesomsseyEngine
         [SerializeField] GameObject mainCam;
         [SerializeField] GameObject attaObj;
         [SerializeField] PlayerMove playerObj;
+        [SerializeField] public Vector3 levelOffSet;
+        [SerializeField] LevelGuide levelGuide;
 
         // Start is called before the first frame update
         void Start()
@@ -21,7 +23,8 @@ namespace AwesomsseyEngine
         void Update()
         {
             //playerObj = FindObjectOfType<PlayerMove>();
-            this.transform.position = playerObj.transform.position + new Vector3(0,.5f,-10);
+            levelGuide = FindObjectOfType<LevelGuide>();
+            this.transform.position = playerObj.transform.position + new Vector3(0,.5f,-10) + levelOffSet;
         }
     }
 

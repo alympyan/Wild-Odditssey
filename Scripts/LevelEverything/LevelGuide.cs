@@ -9,6 +9,9 @@ namespace AwesomsseyEngine
         [SerializeField] GameObject attaPlayer;
         [SerializeField] PlayerMove playerMove;
         [SerializeField] Vector3 playerStartPos;
+        [SerializeField] Vector3 cameraOffSetLevel;
+        [SerializeField] Camera pixelCamera;///MANUALLY SET EACH LAND
+        [SerializeField] CameraFollow cameraFollow;
         
 
 
@@ -17,6 +20,8 @@ namespace AwesomsseyEngine
         {
             playerMove = FindObjectOfType<PlayerMove>();
             playerMove.transform.position = playerStartPos;
+            cameraFollow = pixelCamera.GetComponent<CameraFollow>();
+            cameraFollow.levelOffSet = cameraOffSetLevel;///SET LEVEL CAMERA OFFSET
         }
 
         // Update is called once per frame

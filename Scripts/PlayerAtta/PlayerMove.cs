@@ -30,6 +30,8 @@ namespace AwesomsseyEngine
         [SerializeField] public bool walkState;
         [SerializeField] public bool jumpingState;
         [SerializeField] public bool tailKissState;
+        [SerializeField] public bool tailAttackstate;
+        [SerializeField] public bool attacking;
         [Header("Velocity Adacity")]
         [SerializeField] float velXCounter;
         [SerializeField] float velcXMAX;
@@ -217,11 +219,14 @@ namespace AwesomsseyEngine
 
 
             ///TAILKISS
-            if (Input.GetButton("Fire1") == true)
-            {
-                attaAnim.SetBool("Tail", true);
+            //if (Input.GetButton("Fire1") == true && attacking == false)
+            //{
+                //attaAnim.SetBool("Tail", true);
+                //tailAttackstate = true;
+                //StartCoroutine(TailAttack());
 
-            }
+
+            //}
 
             ///TailSlide
             if (Input.GetButtonDown("Throw") && vertInput < -.1f && walkState == false) ///ENSURE NO STATES INTERFERE
@@ -371,6 +376,7 @@ namespace AwesomsseyEngine
 
         }
 
+  
 
         void TailReset()
         {

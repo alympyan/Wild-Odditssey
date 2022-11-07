@@ -39,7 +39,7 @@ namespace AwesomsseyEngine
             if(collision.tag == ("Apple") && objPicked == false && contexButtons.throwingState == false)
             {
 
-                itemDsp.itemDspSR.sprite = itemDsp.appleSprite;
+                itemDsp.itemDspSR.sprite = itemDsp.appleSprite;///ITEMDISPLAY IN PLAYER
 
                 GameObject appleObj = collision.gameObject;
                 SpriteRenderer appleSR = collision.GetComponent<SpriteRenderer>();
@@ -50,7 +50,10 @@ namespace AwesomsseyEngine
                 //Rigidbody2D appleRig = collision.gameObject.GetComponent<Rigidbody2D>();
                 //appleRig.isKinematic = true;
                 appleNumbers += 1f;
+                ///FUTURE AUDIO AND VFX
+                ///
                 objPicked = true;
+                Destroy(appleObj);
 
             }
         }
