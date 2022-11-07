@@ -51,6 +51,7 @@ namespace AwesomsseyEngine
         [SerializeField] AnimationClip yellowShotAnim;
         [SerializeField] AnimationClip orangeShotAnim;
         [SerializeField] AnimationClip blueShotAnim;
+        [SerializeField] AudioSource seedAudio;
 
 
 
@@ -61,6 +62,7 @@ namespace AwesomsseyEngine
             gameEngine = FindObjectOfType<GameEngine>();
             shootAnimation = GetComponent<Animation>();
             shootAnim = GetComponent<Animator>();
+            seedAudio = GetComponent<AudioSource>();
            
         }
 
@@ -140,6 +142,7 @@ namespace AwesomsseyEngine
 
             ///AMMO Code
             seedAmmoCurrent -= 1f;///Subtract Ammo
+            seedAudio.Play();///PLAY AUDIO
             yield return new WaitForSeconds(shootDelayTime);///ENSURE SEED DELAY TIME SETUP
             shootState = false;
             shootingDontSpawn = false; ///RESET BOOL

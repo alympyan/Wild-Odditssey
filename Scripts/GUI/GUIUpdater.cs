@@ -129,7 +129,7 @@ namespace AwesomsseyEngine
                 }
                 if (i < ammoMaxGUI)
                 {
-                    print("GUI JUMPShot > MAX");
+                    
                     ammoImageArray[i].enabled = true;
                 }
                 else

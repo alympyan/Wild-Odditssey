@@ -31,13 +31,13 @@ namespace AwesomsseyEngine
         void Start()
         {
             bagSR = GetComponent<SpriteRenderer>();
-            ChangeSeedBag();///Set BAG TYPE AND AMOUNT AND SPRITE
+            //ChangeSeedBag();///Set BAG TYPE AND AMOUNT AND SPRITE
         }
 
         // Update is called once per frame
         void Update()
         {
-            ChangeSeedBag();///FOR SPAWNING ITEMS
+            //ChangeSeedBag();///FOR SPAWNING ITEMS
             if(animateStarted == false)
             {
                 StartCoroutine(AnimateBagTrans());
@@ -88,6 +88,7 @@ namespace AwesomsseyEngine
         void AddAmmoAtta(SeedShot attaSeedsBag) 
         {
             attaSeedsBag.seedAmmoCurrent += ammoAmount;
+            print("Ammo Adds + = " + ammoAmount);
             ///Current Death
             Destroy(gameObject);
         }

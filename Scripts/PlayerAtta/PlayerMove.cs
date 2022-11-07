@@ -39,12 +39,12 @@ namespace AwesomsseyEngine
         [SerializeField] float velXKladderMAX;
         [SerializeField] float ogVelXMAX;
         [Header("Jump Menu")]
-        [SerializeField] bool grounded;
-        [SerializeField] float jumpPower;
+        [SerializeField] public bool grounded;
+        [SerializeField] public float jumpPower;
         [SerializeField] float jumpCount;
         [SerializeField] float jumpCountMAX;
-        [SerializeField] bool jumpButtonPressed;
-       
+        [SerializeField] public bool jumpButtonPressed;
+
         [Header("Comp")]
         [SerializeField] public Rigidbody2D attaRig;
         [SerializeField] public Animator attaAnim;
@@ -58,7 +58,7 @@ namespace AwesomsseyEngine
         {
             attaRig = GetComponent<Rigidbody2D>();
             attaAnim = GetComponent<Animator>();
-           // groundCheck = GetComponent<GroundCheck>();
+            // groundCheck = GetComponent<GroundCheck>();
             isFacingRight = true;
             ogVelXMAX = velcXMAX; ///GRAB CURRENT VELCX FOR SLIDE
         }
@@ -67,7 +67,7 @@ namespace AwesomsseyEngine
         void Update()
         {
             grounded = groundCheck.grounded;
-            if(transform.right == Vector3.right)
+            if (transform.right == Vector3.right)
             {
                 transVectRight = new Vector2(1, 0);
             }
@@ -84,9 +84,9 @@ namespace AwesomsseyEngine
             velYCounter = attaRig.velocity.y;
 
             ///FLIPPING CODE FIRST
-            if(Input.GetAxis("Horizontal") > .1f && isFacingRight == false && flipped == true) ///FLIP RIGHT
+            if (Input.GetAxis("Horizontal") > .1f && isFacingRight == false && flipped == true) ///FLIP RIGHT
             {
-                transform.rotation = new Quaternion(0, 0, 0,0);
+                transform.rotation = new Quaternion(0, 0, 0, 0);
                 isFacingRight = true;
                 //flippingState = true;
                 flipped = false;
@@ -132,8 +132,8 @@ namespace AwesomsseyEngine
                 }
             }
             ///HORZ INPUT LOOP END
-            
-           
+
+
 
             ///KLADDER SETUP
             if (kladderOn == true)
@@ -170,54 +170,54 @@ namespace AwesomsseyEngine
                 }
             }
 
-            if(kladderOn == false)
+            if (kladderOn == false)
             {
                 //attaRig.gravityScale = 1f;
                 //attaAnim.SetBool("Climb", false);
                 //attaAnim.SetBool("ClimbIdle", false);
-               
+
 
             }
 
 
 
             ///JUMP CODE !!!!!!!!!
-            if(Input.GetButton("Jump") == true && groundCheck.grounded == true && jumpingState == false && jumpButtonPressed == false)
+            if (Input.GetButton("Jump") == true && groundCheck.grounded == true && jumpingState == false && jumpButtonPressed == false)
             {
                 attaAnim.SetBool("Jump", true);
                 jumpingState = true;
                 print("Jump Pressed");
-                
+
 
             }
 
-            else if(Input.GetButtonUp("Jump") == true)
+            else if (Input.GetButtonUp("Jump") == true)
             {
                 jumpingState = false;
                 jumpButtonPressed = false;
             }
 
 
-            else if(groundCheck.grounded == true)///GROUND CHECK
+            else if (groundCheck.grounded == true)///GROUND CHECK
             {
                 jumpingState = false;
                 //attaAnim.SetBool("Jump", false);
                 //attaAnim.SetBool("Idle", true);
                 print("GravityScale is Grouneded");
                 attaRig.gravityScale = 1f;
-                
-                
+
+
             }
 
 
-            if(kladderOn == false)///DO VELCOITY CHECK WHEN NOT ON LADDER
+            if (kladderOn == false)///DO VELCOITY CHECK WHEN NOT ON LADDER
             {
                 VelocityControl();
             }
-            
+
 
             ///TAILKISS
-            if(Input.GetButton("Fire1") == true)
+            if (Input.GetButton("Fire1") == true)
             {
                 attaAnim.SetBool("Tail", true);
 
@@ -234,17 +234,17 @@ namespace AwesomsseyEngine
 
         private void FixedUpdate()
         {
-            if(jumpingState == true)
+            if (jumpingState == true)
             {
                 Jump();
             }
 
-            if(slideState == true && jumpingState == false)
+            if (slideState == true && jumpingState == false)
             {
                 print("Slide Started");
-               StartCoroutine(TailSlide());
+                StartCoroutine(TailSlide());
             }
-            if(slideState == false)///RESET VELCXMAX
+            if (slideState == false)///RESET VELCXMAX
             {
                 velcXMAX = ogVelXMAX;
             }
@@ -294,19 +294,19 @@ namespace AwesomsseyEngine
                 attaRig.velocity = new Vector2(attaRig.velocity.x, -velYMAX);
             }
 
-            if(attaRig.velocity.y <0 )///JUMP FALL
+            if (attaRig.velocity.y < 0)///JUMP FALL
             {
                 print("Velocity Fall");
                 attaRig.gravityScale = 2f;
             }
-        
+
         }
 
 
         void VelocityKladderControl()
         {
             if (kladderOn == true)
-               
+
             {
                 attaRig.gravityScale = 0f;
                 print("GravityScale is = " + attaRig.gravityScale);
@@ -339,13 +339,13 @@ namespace AwesomsseyEngine
             print("Jump Anim is = = " + attaAnim.GetBool("Jump"));
             attaRig.gravityScale = 1.5f;
             attaRig.AddForce(jumpPower * Vector2.up * Time.deltaTime, ForceMode2D.Impulse);///35 1.5
-            if(attaRig.velocity.y >= velYMAX)
+            if (attaRig.velocity.y >= velYMAX)
             {
                 jumpingState = false;
             }
         }
 
-          IEnumerator  TailSlide()
+        IEnumerator TailSlide()
         {
             print("Slide Func");
             attaAnim.SetBool("Slide", true);
@@ -357,7 +357,7 @@ namespace AwesomsseyEngine
             slideRay = Physics2D.Raycast(transform.position * transVectRight, transVectRight, 1f);
             if (slideRay != null)
             {
-               // if (slideRay.collider.tag == ("Enemies"))
+                // if (slideRay.collider.tag == ("Enemies"))
                 {
                     print("Slide hit Enemy");
                 }
@@ -368,9 +368,9 @@ namespace AwesomsseyEngine
             print("Slide vel AFTER = " + velcXMAX);
             slideState = false;
 
-            
+
         }
-     
+
 
         void TailReset()
         {
