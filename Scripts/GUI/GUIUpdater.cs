@@ -65,6 +65,11 @@ namespace AwesomsseyEngine
         [SerializeField] string coinStringForGui;
         [SerializeField] TMP_Text coinTextField;
 
+        [Header("LevelName")]
+        [SerializeField] LevelName levelNameScript;
+        [SerializeField] string levelString;
+        [SerializeField] TMP_Text levelTextField;
+
 
 
         // Start is called before the first frame update
@@ -95,11 +100,15 @@ namespace AwesomsseyEngine
             ammoMaxGUI = seedShot.seedAmmoMax;
             ///Coins
             coinCount = coinsAInventory.coinsCurrent;
+            ///LvelName GRAB REF EVERY LAND
+            levelNameScript = FindObjectOfType<LevelName>();
+            levelString = levelNameScript.levelName;
             ///RUN PROGRAMS
             LifeProgramGUI();
             HealthProgramGUI();
             CoinProgramGUI();
             AmmoProgramGUI();
+            LevelNameGUI();
         }
 
         void LifeProgramGUI()
@@ -166,6 +175,11 @@ namespace AwesomsseyEngine
             {
 
             }
+
+        void LevelNameGUI()
+        {
+            levelTextField.text = levelString;//Set levelString as level name
+        }
 
         }
 

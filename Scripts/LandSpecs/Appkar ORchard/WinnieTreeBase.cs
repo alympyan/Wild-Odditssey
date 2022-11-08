@@ -35,17 +35,11 @@ namespace AwesomsseyEngine
             //PlayerMove tailMove = collision.GetComponent<PlayerMove>();
             if (collision.tag == ("TailKiss") || collision.tag == ("PowerSeeds"))
             {
-               
-
-                
-                
                     print("Winnie TailKiss");
                     appleTrans[1].tag = ("Apple");
                     appleChildRig[1].isKinematic = false;
                     appleChildRig[1].constraints = RigidbodyConstraints2D.FreezeRotation;
                     appleTrans[1].transform.SetParent(null);
-                
-
             }
         }
     }
