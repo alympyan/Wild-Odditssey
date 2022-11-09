@@ -18,6 +18,7 @@ namespace AwesomsseyEngine
         [SerializeField] AudioClip roarClip;
         [SerializeField] AudioClip cryClip;
         [SerializeField] AudioClip roarTwoClip;
+        [SerializeField] SpriteRenderer[] moutSR;
         [Header("Opptions")]
         [SerializeField] float walkSpeed;
         [SerializeField] float rexHealth; ///Feed Apples to Reduce to Zero
@@ -32,6 +33,7 @@ namespace AwesomsseyEngine
             rexAnim = GetComponent<Animator>();
             rexAudio = GetComponent<AudioSource>();
             rexSR = GetComponent<SpriteRenderer>();
+            moutSR = GetComponentsInChildren<SpriteRenderer>();
         }
 
         // Update is called once per frame
@@ -65,6 +67,7 @@ namespace AwesomsseyEngine
                 appleRig.velocity = Vector2.zero;
                 appleRig.constraints = RigidbodyConstraints2D.FreezeAll;
                 GameObject appleObj = collision.gameObject;
+                StartCoroutine(MouthEat());
                 ///FUTURE ANIMATION Code
                 ///FOR NOW KILL APPLE 
                 Destroy(appleObj);
@@ -82,6 +85,14 @@ namespace AwesomsseyEngine
                 audioStompPlaying = false;
               
             }
+
+        }
+
+        IEnumerator MouthEat() ///1 = Roar 2 = Eat
+        {
+            moutSR[2].enabled = true;
+            yield return new WaitForSeconds(.5f);
+            moutSR[2].enabled = false; ;
 
         }
     }
