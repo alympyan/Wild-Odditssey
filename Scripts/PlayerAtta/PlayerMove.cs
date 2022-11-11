@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEditor;
 using UnityEngine;
 
 
@@ -36,7 +37,7 @@ namespace AwesomsseyEngine
         [SerializeField] float velXCounter;
         [SerializeField] float velcXMAX;
         [SerializeField] float velYCounter;
-        [SerializeField] float velYMAX;
+        [SerializeField] public float velYMAX;
         [SerializeField] float velYKladderMAX;
         [SerializeField] float velXKladderMAX;
         [SerializeField] float ogVelXMAX;
@@ -233,6 +234,11 @@ namespace AwesomsseyEngine
             {
                 print("Slide Button");
                 slideState = true;
+            }
+
+            if(Input.GetButtonDown("Start"))
+            {
+                EditorApplication.isPaused = true;
             }
 
         }
