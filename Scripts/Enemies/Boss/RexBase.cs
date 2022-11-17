@@ -19,12 +19,15 @@ namespace AwesomsseyEngine
         [SerializeField] AudioClip cryClip;
         [SerializeField] AudioClip roarTwoClip;
         [SerializeField] SpriteRenderer[] moutSR;
+        [SerializeField] ParticleSystem[] rexPart;
         [Header("Opptions")]
         [SerializeField] float walkSpeed;
         [SerializeField] float rexHealth; ///Feed Apples to Reduce to Zero
         [SerializeField] bool audioStompPlaying;
         [SerializeField] public bool rexStart;
         [SerializeField] public bool rexDead;
+        [SerializeField] RaycastHit2D groundRay;
+        [SerializeField] bool groundedRex;
         
         // Start is called before the first frame update
         void Start()
@@ -34,27 +37,62 @@ namespace AwesomsseyEngine
             rexAudio = GetComponent<AudioSource>();
             rexSR = GetComponent<SpriteRenderer>();
             moutSR = GetComponentsInChildren<SpriteRenderer>();
+            rexPart = GetComponentsInChildren<ParticleSystem>();
         }
 
         // Update is called once per frame
         void Update()
         {
             //transform.position = Vector3.MoveTowards(transform.position, Vector3.right, Time.deltaTime * walkSpeed);
-            if(rexDead == false)
+            if (rexDead == false)
             {
                 transform.Translate(transform.right * Time.deltaTime * walkSpeed);
                 StartCoroutine(RexStompAudio());
             }
-            
+
 
             ///HEALTH
-            if(rexHealth <= 0)
+            if (rexHealth <= 0)
             {
                 rexDead = true;
                 print("Rex has died");
                 ///AUDIO AND VFX
-                
+
             }
+           
+            //groundRay = Physics2D.Raycast(transform.position + new Vector3(0, -1.9f), Vector2.down, 2f);
+            Debug.DrawRay(transform.position + new Vector3(0, -1.9f), Vector2.down * 2f, Color.blue, .01f);
+            //if (groundRay.collider == null)
+           // {
+               // print("Rex ground is colliding NULL += ");
+                //groundedRex = false;
+           // }
+           if (groundRay.collider != null)
+            {
+                print("Rex ground is firing");
+                print("Rex ground is colliding += " + groundRay.collider.gameObject.layer);
+                if (groundRay.collider.tag == ("Platforms") || groundRay.collider.gameObject.layer == 10)///10 = Platform
+                {
+                    print("Rex is PLATFROMS = " + groundRay.collider.gameObject.layer);
+                    groundedRex = true;
+                }
+                if (groundRay.collider.gameObject.layer != 10 )
+                {
+                    groundedRex = false;
+                }
+
+               
+            }
+
+            if (groundedRex == false)
+            {
+                rexPart[0].enableEmission = true;
+            }
+            if (groundedRex == true)
+            {
+                rexPart[0].enableEmission = false;
+            }
+
         }
 
         private void OnTriggerStay2D(Collider2D collision)
