@@ -18,6 +18,10 @@ namespace AwesomsseyEngine
         [SerializeField] Vector2 rayOffsetX;
         [SerializeField] bool partIsPlaying;
         [SerializeField] bool partPlayed;
+        [SerializeField] float popHealth;
+        [SerializeField] GameObject spawnObj;
+        [SerializeField] GameObject spawnedGrass;
+        
 
 
 
