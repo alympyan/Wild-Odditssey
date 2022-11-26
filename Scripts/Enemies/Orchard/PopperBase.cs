@@ -5,20 +5,42 @@ namespace AwesomsseyEngine
 {
     public class PopperBase : MonoBehaviour
     {
+        [Header("Comp")]
         [SerializeField] BoxCollider2D popBox;
         [SerializeField] AudioSource popAudio;
         [SerializeField] Rigidbody2D popRig;
         [SerializeField] SpriteRenderer popSR;
         [SerializeField] Animator popAnim;
         [SerializeField] ParticleSystem popPart;
+        [SerializeField] SpawnItems spawnItem;
 
+        [Header("FLIPPING")]
+        [SerializeField] bool flipRight;
+
+        [Header("Bools")]
+        [SerializeField] bool detectRayHitSomething;
+        [SerializeField] public bool canBeHit;
+        [SerializeField] public bool flickerOn;
+        [SerializeField] bool shootMode;
+        [SerializeField] bool deathState;
+       
+        [SerializeField] public bool detectPlayerState;
+        [SerializeField] bool isShooting;
+        [SerializeField] bool partIsPlaying;
+        [SerializeField] bool partPlayed;
+
+        [Header("Floats and Vectors")]
         [SerializeField] float seedSpeed;
         [SerializeField] float seedShotTimer;
         [SerializeField] RaycastHit2D detectRay;
-        [SerializeField] Vector2 rayOffsetX;
-        [SerializeField] bool partIsPlaying;
-        [SerializeField] bool partPlayed;
-        [SerializeField] float popHealth;
+        [SerializeField] Vector3 rayOffsetX;
+        [SerializeField] Vector2 rayDir;
+     
+        [SerializeField] public float popHealth;
+     
+        [SerializeField] float timerForShooting;
+        [SerializeField] float ogShootTimer;
+        [Header("GameObj")]
         [SerializeField] GameObject spawnObj;
         [SerializeField] GameObject spawnedGrass;
         
@@ -32,58 +54,184 @@ namespace AwesomsseyEngine
             popSR = GetComponent<SpriteRenderer>();
             popAnim = GetComponent<Animator>();
             popPart = GetComponent<ParticleSystem>();
+            popBox = GetComponent<BoxCollider2D>();
+            popRig = GetComponent<Rigidbody2D>();
+            spawnItem = GetComponent<SpawnItems>();
+            ogShootTimer = timerForShooting;
 
         }
 
         // Update is called once per frame
         void Update()
         {
-            if (popSR.flipX == true)
+            if (flipRight == false) ///FACE LEFT
             {
-                transform.right = new Vector3(-1, 0);
-                rayOffsetX = new Vector2(-1.1f, .5f);
-                transform.rotation = new Quaternion(0, 180, 0, 0);
+                transform.right = -transform.right;
+                rayOffsetX = new Vector2(-.5f, 0);
+                rayDir = new Vector2(-1, 0);
+                transform.rotation = new Quaternion(0, 0, 0, 0);
             }
 
-            if (popSR.flipX == false)
+            if (flipRight == true) ///Face Right
             {
-                transform.right = new Vector3(1, 0);
-                rayOffsetX = new Vector2(2f, .5f);
-                transform.rotation = new Quaternion(0, 180, 0, 0);
+                transform.right = transform.right;
+                rayOffsetX = new Vector2(.5f, 0);
+                rayDir = new Vector2(1, 0);
+                transform.rotation = new Quaternion(0, -180, 0, 0);
             }
-
-
-            detectRay = Physics2D.Raycast(rayOffsetX, transform.right, 2f);
-            Debug.DrawRay(rayOffsetX, transform.right * 2f, Color.yellow);
-
-            if(detectRay.collider == null)
+            
+            if(detectPlayerState == false)///FORCES DETECTION OFF
             {
-                popAnim.SetBool("Popup", false);
                 partPlayed = false;
-                //popPart.enableEmission = false;
+                partIsPlaying = false;
+                
             }
 
-            if(detectRay.collider != null)
-            {
-                print("Popper ray is colliding + = " + detectRay.collider.gameObject + "Popper transformRigh is = " + transform.right);
-                if(detectRay.collider.tag == ("Player"))
-                {
-                   
-                    popAnim.SetBool("Popup", true);
-                    if(partIsPlaying == false && partPlayed == false)
-                    {
-                        StartCoroutine(PlayGrass());
-                    }
-                    
-                }
+            //detectRay = Physics2D.Raycast(this.transform.position  , rayDir, 3f); ///LAYER MASK 6 = Player
+            //Debug.DrawRay(this.transform.position , rayDir * 3f, Color.yellow);
+            //print("Popper is Update RAY = " + detectRay[0].collider.tag + ","+ detectRay[1].collider.tag);
+            print("Popper is Update RAY ");
+            print("Popper Ray is For LOOPING = " + detectRay.collider);
 
-                else if(detectRay.collider.tag != ("Player"))
-                {
-                    popAnim.SetBool("Popup", false);
-                    //popPart.enableEmission = false;
-                }
+
+         
+
+            if(detectPlayerState == false)///RESET ALL SETTINGS ONE PLAYER NOT DETECTED
+            {
+                popBox.enabled = false;
+                timerForShooting = ogShootTimer; ///RESET SHOOTER TIMER
+            }
+
+            if(detectPlayerState == true)
+            {
+                popBox.enabled = true;
+            }
+
+            if(detectPlayerState == true && shootMode == false)
+            {
+                timerForShooting -= Time.deltaTime;
+            }
+        
+            if(timerForShooting <0  && shootMode == false && isShooting == false)
+            {
+                shootMode = true;
+                timerForShooting = ogShootTimer;
+            }
+
+            if(shootMode == false && timerForShooting <0)
+            {
+                timerForShooting = ogShootTimer;
+            }
+
+
+            ///DEATH CHECK
+            if (popHealth <= 0)///DISABLE AND PLAY DEATH ANIM
+            {
+                shootMode = false;
+                deathState = true;
+                spawnItem.spawningMode = true;///SPAWN ITEM
+                popBox.enabled = false;
+                popRig.isKinematic = true;
+                popAnim.SetBool("Death", true);
+
             }
         }
+
+        private void FixedUpdate()
+        {
+            if(shootMode == true && isShooting == false) ///START SHOOTING
+            {
+                StartCoroutine(ShootPelletMode());
+                
+            }
+        }
+
+
+    
+
+        private void OnTriggerEnter2D(Collider2D collision)
+        {
+
+            if(collision.tag == "Player")
+            {
+
+                detectPlayerState = true;
+
+            }
+
+          
+        }
+
+
+        private void OnTriggerStay2D(Collider2D collision)
+        {
+
+
+            if (deathState == false)///ENSURE DEATH STATE IS FALSE
+            {
+                if (collision.tag == "Player") ///DETECTION FOR PLAYER NOT COLLISION
+                {
+                    //detectPlayerState = false;///RESET DETECTION
+                    print("Popper Ray is PLAYER!!!");
+                    popAnim.SetBool("Popup", true);
+                    detectPlayerState = true;
+                    if (partIsPlaying == false && partPlayed == false)
+                    {
+                        print("Popper col playing Grass");
+                        StartCoroutine(PlayGrass());
+                        detectRayHitSomething = true;
+                        ///Continues Execution 
+                        ///Reurn stops execution of CODE
+                    }
+
+                    if (flickerOn == true)
+                    {
+                        canBeHit = false;
+                    }
+
+
+                    if (flickerOn == false)
+                    {
+                        canBeHit = true;
+                    }
+
+
+                }
+            }///END OF LOOP
+
+        }
+
+        private void OnTriggerExit2D(Collider2D collision)///RESET DETECTION
+        {
+            if (collision.tag == "Player")
+            {
+                partPlayed = false;
+                print("Popper col exit Player");
+                    detectRayHitSomething = false;
+                    partPlayed = false;
+                partIsPlaying = false;
+                shootMode = false;
+                    popAnim.SetBool("Popup", false);
+                    canBeHit = false;
+                detectPlayerState = false;///FORCES OFF DETECT
+                
+            }
+        }
+
+
+        public IEnumerator FlickerMe()
+        {
+            Color ogColor = popSR.color;
+            popSR.color = Color.green;
+            canBeHit = false;
+            flickerOn = true;
+            print("Popper flicker stuck");
+            yield return new WaitForSeconds(.5f);
+            popSR.color = Color.white;
+            canBeHit = true;
+            flickerOn = false;///STOPS LOOP FROM SETTING HIT TO TRUE
+        }
+
 
         IEnumerator PlayGrass()
         {
@@ -92,8 +240,27 @@ namespace AwesomsseyEngine
             popPart.Play();
             yield return new WaitForSeconds(.5f);
             popPart.Stop();
-            partIsPlaying = false;
+            partIsPlaying = true;
             partPlayed = true;
+        }
+
+        IEnumerator ShootPelletMode()///PROJECTILE SPAWN
+        {
+            isShooting = true;
+            popAnim.SetBool("Shoot", true);
+            spawnedGrass = Instantiate(spawnObj, this.transform.position + new Vector3(rayDir.x,0), transform.rotation);
+            Rigidbody2D grassRig = spawnedGrass.GetComponent<Rigidbody2D>();
+            grassRig.AddForce(rayDir * seedSpeed * Time.deltaTime,ForceMode2D.Impulse);
+            yield return new WaitForSeconds(.5f);
+            isShooting = false;
+            shootMode = false;
+            popAnim.SetBool("Shoot", false);
+
+        }    
+
+        void Death()
+        {
+            Destroy(gameObject);
         }
     }
 

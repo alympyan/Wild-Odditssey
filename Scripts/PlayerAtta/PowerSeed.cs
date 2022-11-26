@@ -18,9 +18,14 @@ namespace AwesomsseyEngine
         [SerializeField] public bool deviSeeds;
         [SerializeField] public bool slappinSeeds;
         [SerializeField] float lifeTimer;
+        [SerializeField] bool partSysOn;
+        [SerializeField] public bool deathState;
 
         [Header("Comp")]
         [SerializeField] public SpriteRenderer seedSR;
+        [SerializeField] Animator seedAnim;
+        [SerializeField] Rigidbody2D seedRig;
+        
 
 
         [Header("Script")]
@@ -33,6 +38,9 @@ namespace AwesomsseyEngine
         private void Awake()
         {
             seedSR = GetComponent<SpriteRenderer>();
+            seedAnim = GetComponent<Animator>();
+            seedRig = GetComponent<Rigidbody2D>();
+
         }
 
         // Start is called before the first frame update
@@ -50,7 +58,19 @@ namespace AwesomsseyEngine
                 ///FITURE PLAY PARTICLE
                 Destroy(gameObject);
             }
+
+
+            ///DEATH
+            if(deathState == true)///SET BY ENEMY
+            {
+                print("powerseed deaht");
+                seedRig.isKinematic = true;
+                seedRig.constraints = RigidbodyConstraints2D.FreezeAll;
+                seedAnim.SetBool("Death", true);
+            }
         }
+
+
 
 
         private void OnTriggerEnter2D(Collider2D collision)///PROJECTILES TRIGGER SO BOX DONT PUSH OBJECTS
@@ -59,6 +79,12 @@ namespace AwesomsseyEngine
             {
                 ///FUTURE PARTICLE
             }
+        }
+
+
+        void DestroySeed()
+        {
+            Destroy(gameObject);
         }
     }
 

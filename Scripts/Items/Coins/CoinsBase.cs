@@ -19,6 +19,8 @@ namespace AwesomsseyEngine
         [SerializeField] Sprite greenBagSprite;
         [SerializeField] Sprite blueBagSprite;
         [SerializeField] Sprite redBagSprite;
+        [SerializeField] ParticleSystem coinPart;
+        [SerializeField] GameObject coinParticleObject;
 
         [Header("Options")]
         [SerializeField] public bool greenSeeds;
@@ -35,7 +37,7 @@ namespace AwesomsseyEngine
         // Start is called before the first frame update
         void Start()
         {
-
+            coinPart = GetComponent<ParticleSystem>();
         }
 
         // Update is called once per frame
@@ -62,6 +64,7 @@ namespace AwesomsseyEngine
         void AddCoin(CoinsAInventory coinInvFunc)
         {
             coinInvFunc.coinsCurrent += coinAmount;
+            Instantiate(coinParticleObject, transform.position, transform.rotation);
             Destroy(gameObject);
         }
 
