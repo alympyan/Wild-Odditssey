@@ -16,6 +16,7 @@ namespace AwesomsseyEngine
         [SerializeField] bool particleSysOn;
         [SerializeField] bool isPlaying;
         [SerializeField] float damageToPlayer;
+        [SerializeField] bool hitPlayer;
 
         [Header("Comp")]
         [SerializeField] Animator projAnim;
@@ -57,14 +58,23 @@ namespace AwesomsseyEngine
 
         private void OnTriggerStay2D(Collider2D collision)
         {
-            if(collision.tag == "Player")
+            if(collision.tag == "Player" && hitPlayer == false)
             {
                 AttaHealth playerHealth = collision.GetComponent<AttaHealth>();
                 AttaCollisions attaColl = collision.GetComponent<AttaCollisions>();
+                //projBox.enabled = false;
                 if (attaColl.invulState == false)///ENSURE PLAYER IS NOT INVUL
                 {
+                    ///DISABLE
+                    hitPlayer = true;///STOPS DOUBLE HITTING
+                    projRig.isKinematic = true;
+                    projRig.constraints = RigidbodyConstraints2D.FreezeAll;
+                    projBox.enabled = false;
+                    print("seed should be disabled");
                     attaColl.hitState = true;
+                    //attaColl.invulState = true;
                     playerHealth.currentPlayerHealth -= damageToPlayer;
+                  
                     print("atta flicker is Coroutine Before");
                     //StartCoroutine(attaColl.FlickerAtta());
                     print("atta flicker is Coroutine Start");

@@ -62,7 +62,7 @@ namespace AwesomsseyEngine
             }
         }
 
-        void AddLuckyJumps(LuckyJump luckyJump)
+        void AddLuckyJumps(LuckyJump luckyJump) ///Adds LuckySand to Player Through Bool + adds throug var jumpAddCount!! - Manually Set Jump Numbers
         {
             sandAudio.Play();
             luckyJump.luckyJumpMode = true;

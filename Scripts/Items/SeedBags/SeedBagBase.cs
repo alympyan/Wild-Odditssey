@@ -16,6 +16,8 @@ namespace AwesomsseyEngine
         [SerializeField] Sprite greenBagSprite;
         [SerializeField] Sprite blueBagSprite;
         [SerializeField] Sprite redBagSprite;
+        [SerializeField] Sprite flashSprite;
+        [SerializeField] Sprite nonFlashSprite;
 
         [Header("Options")]
         [SerializeField] public bool greenSeeds;
@@ -23,14 +25,24 @@ namespace AwesomsseyEngine
         [SerializeField] public bool redSeeds;
 
         [Header("Vars And Values")]
+        [SerializeField] BoxCollider2D seedBox;
+        [SerializeField] bool spawnedFirst;
         [SerializeField] float ammoAmount;
         [SerializeField] bool animateStarted;
         [SerializeField] Vector3 animatePos;
 
+
+        private void Awake()
+        {
+            bagSR = GetComponent<SpriteRenderer>();
+            seedBox = GetComponent<BoxCollider2D>();
+            StartCoroutine(Flash());
+        }
+
         // Start is called before the first frame update
         void Start()
         {
-            bagSR = GetComponent<SpriteRenderer>();
+          
             //ChangeSeedBag();///Set BAG TYPE AND AMOUNT AND SPRITE
         }
 
@@ -50,6 +62,7 @@ namespace AwesomsseyEngine
             {
                 GameObject attaCol = collision.gameObject;
                 SeedShot attaSeeds = collision.gameObject.GetComponent<SeedShot>();
+                seedBox.enabled = false;
                 AddAmmoAtta(attaSeeds);
             }
         }
@@ -91,6 +104,16 @@ namespace AwesomsseyEngine
             print("Ammo Adds + = " + ammoAmount);
             ///Current Death
             Destroy(gameObject);
+        }
+
+        IEnumerator Flash()
+        {
+            print("seedbag flash started");
+            bagSR.sprite = flashSprite;
+            seedBox.enabled = false;
+            yield return new WaitForSeconds(.5f);
+            bagSR.sprite = nonFlashSprite;
+            seedBox.enabled = true;
         }
 
         ///FUTURE PARTICLE SYSTEM

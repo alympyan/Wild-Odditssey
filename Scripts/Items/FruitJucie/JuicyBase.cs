@@ -14,10 +14,23 @@ namespace AwesomsseyEngine
         [SerializeField] float healthAmount;
         [SerializeField] bool animateStarted;
         [SerializeField] Vector3 animatePos;
+        [SerializeField] BoxCollider2D jucyBox;
+        [SerializeField] SpriteRenderer jucySR;
+        [SerializeField] Sprite jucyFlashSprite;
+        [SerializeField] Sprite jucyNonFlashSprite;
+        [Header("Options")]
+        [SerializeField] float startTimer;
+        [SerializeField] bool spawnedFirst;
 
+        private void Awake()
+        {
+            jucyBox = GetComponent<BoxCollider2D>();
+            jucySR = GetComponent<SpriteRenderer>();
+            StartCoroutine(Flash());
+        }
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if(collision.tag == ("Player"))
+            if(collision.tag == ("Player") && spawnedFirst == true)
             {
                 AttaHealth attaHealth = collision.GetComponent<AttaHealth>();
                 AddHealth(attaHealth);
@@ -30,6 +43,16 @@ namespace AwesomsseyEngine
             attaHealthScript.currentPlayerHealth += healthAmount;
             ///FUTURE PARTICLE
             Destroy(gameObject);
+        }
+
+        IEnumerator Flash()
+        {
+            jucyBox.enabled = false;
+            jucySR.sprite = jucyFlashSprite;
+            yield return new WaitForSeconds(.5f);
+            jucyBox.enabled = true;
+            jucySR.sprite = jucyNonFlashSprite;
+            spawnedFirst = true;
         }
     }
     

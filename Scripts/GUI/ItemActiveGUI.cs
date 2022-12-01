@@ -40,7 +40,7 @@ namespace AwesomsseyEngine
         [SerializeField] Sprite bowFour;
 
         [Header("VARS")]
-        [SerializeField] float luckyJumpCountGUI;
+        [SerializeField] public float luckyJumpCountGUI;
 
         [Header("Scripts")]
         [SerializeField] LuckyJump attaJumpGUI;
@@ -49,7 +49,7 @@ namespace AwesomsseyEngine
         // Start is called before the first frame update
         void Start()
         {
-            attaJumpGUI = FindObjectOfType<LuckyJump>();
+            attaJumpGUI = FindObjectOfType<LuckyJump>();///FIND LUCKYJUMP
         }
 
         // Update is called once per frame

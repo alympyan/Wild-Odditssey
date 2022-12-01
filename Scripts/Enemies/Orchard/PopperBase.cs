@@ -251,6 +251,7 @@ namespace AwesomsseyEngine
             spawnedGrass = Instantiate(spawnObj, this.transform.position + new Vector3(rayDir.x,0), transform.rotation);
             Rigidbody2D grassRig = spawnedGrass.GetComponent<Rigidbody2D>();
             grassRig.AddForce(rayDir * seedSpeed * Time.deltaTime,ForceMode2D.Impulse);
+            print("popper shooting");
             yield return new WaitForSeconds(.5f);
             isShooting = false;
             shootMode = false;

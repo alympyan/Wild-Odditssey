@@ -19,6 +19,7 @@ namespace AwesomsseyEngine
         [SerializeField] Rigidbody2D appitRig;
         [SerializeField] SpriteRenderer appitSR;
         [SerializeField] SpawnItems spawnItem;
+        [SerializeField] PlayerMove playerMove;
 
         [Header("Options")]
         [SerializeField] float fallTimer;
@@ -32,6 +33,9 @@ namespace AwesomsseyEngine
         [SerializeField] float dmgToPlayer;
         [SerializeField] float moveSpeed;
         [SerializeField] float lifeTimer;
+        [SerializeField] Vector2 playerPosXVector;
+        [SerializeField] Vector3 playerCurrentPos;
+        [SerializeField] bool playerCalculated;
         [Header("Velc Control")]
         [SerializeField] float velocXMax;
         [SerializeField] float velcxCounter;
@@ -100,15 +104,11 @@ namespace AwesomsseyEngine
 
         private void FixedUpdate()
         {
-            if(rollingState == true)
+            if(rollingState == true)///MOVE FROM HIT -- USE playerCurrentPos
             {
-                PlayerMove playerMove = FindObjectOfType<PlayerMove>();
-                float playerPosX = playerMove.transform.position.x;
-                float playerPosY = playerMove.transform.position.y;
-                Vector2 playerPos = new Vector2(playerPosX,playerPosY);
-                Vector2 playerPosXVector = new Vector2(playerPosX, 0);
+              
                 print("appit playeX = " + playerPosXVector);
-                appitRig.AddForce(playerPosXVector * moveSpeed * Time.deltaTime,ForceMode2D.Impulse);
+                appitRig.AddForce(playerCurrentPos * moveSpeed * Time.deltaTime,ForceMode2D.Impulse);///MUST SET NUMBER FOR FORCE
             }
         }
 
@@ -162,6 +162,10 @@ namespace AwesomsseyEngine
             if (collision.tag == "Player" && canBeHit == true) ///ENSURE PLAYER IS NOT INVUL - DAMAGES PLAYER
             {
                 AttaCollisions invulState = collision.GetComponent<AttaCollisions>();
+                if(invulState.invulState == true)
+                {
+                   
+                }
                 if (invulState.invulState == false)///CHECK IF PLAYER IS INVUL
                 {
                     AttaHealth playerHealth = collision.GetComponent<AttaHealth>();
@@ -183,12 +187,30 @@ namespace AwesomsseyEngine
 
         }
 
-        private void OnCollisionEnter2D(Collision2D collision)
+        private void OnCollisionEnter2D(Collision2D collision) ///SETS ROLLING STATE AND CLALCULATES PLAYHER POS 
         {
-            if(collision.gameObject.tag == "Platforms")///SETS ROLLS STATE ON PLATFORM
+            if(collision.gameObject.tag == "Platforms" && playerCalculated == false)///SETS ROLLS STATE ON PLATFORM calculated stops continuous calulations
             {
                 canBeHit = true;
                 rollingState = true;
+                playerMove = FindObjectOfType<PlayerMove>();
+                float playerPosX = playerMove.transform.position.x;
+                float playerPosY = playerMove.transform.position.y;
+                Vector2 playerPos = new Vector2(playerPosX, playerPosY);
+                playerPosXVector = new Vector2(playerPosX, 0);
+                if(playerPosX > this.transform.position.x)
+                {
+                    playerCurrentPos = new Vector3(1, 0);
+                    playerCalculated = true;
+                }
+                if (playerPosX < this.transform.position.x)
+                {
+                    playerCurrentPos = new Vector3(-1, 0);
+                    playerCalculated = true;
+                }
+
+
+                //playerCurrentPos = playerMove.transform.position - this.transform.position;///FIND PLAYER POS
             }
         }
 

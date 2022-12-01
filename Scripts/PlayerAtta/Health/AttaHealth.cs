@@ -92,6 +92,12 @@ namespace AwesomsseyEngine
             {
                 currentPlayerHealth = CurrentPlayerMaxHealth;
             }
+            if(currentPlayerHealth <0)
+            {
+                currentPlayerHealth = 0;
+            }
+
+            ///future death code
         }
     }
 }

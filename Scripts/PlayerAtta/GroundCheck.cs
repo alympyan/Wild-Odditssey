@@ -29,6 +29,7 @@ namespace AwesomsseyEngine
             if (collision.tag == ("Platforms"))
             {
                 grounded = true;
+                Physics2D.SyncTransforms();
                 playerMove.attaRig.velocity = new Vector2(playerMove.attaRig.velocity.x, 0);
                 playerMove.attaAnim.SetBool("Jump", false);
                 

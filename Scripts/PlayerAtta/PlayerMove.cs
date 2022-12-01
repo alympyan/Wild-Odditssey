@@ -12,7 +12,7 @@ namespace AwesomsseyEngine
         [Header("Player Vars")]
         [SerializeField] float horzInput;
         [SerializeField] float vertInput;
-        [SerializeField] bool kladderOn;
+        [SerializeField] public bool kladderOn;
         [SerializeField] float walkSpeed;
         [SerializeField] float normHorz;
         [SerializeField] float normVert;
@@ -38,6 +38,7 @@ namespace AwesomsseyEngine
         [SerializeField] float velcXMAX;
         [SerializeField] float velYCounter;
         [SerializeField] public float velYMAX;
+        [SerializeField] float velYFallMAX;
         [SerializeField] float velYKladderMAX;
         [SerializeField] float velXKladderMAX;
         [SerializeField] float ogVelXMAX;
@@ -46,6 +47,9 @@ namespace AwesomsseyEngine
         [SerializeField] public float jumpPower;
         [SerializeField] float jumpCount;
         [SerializeField] float jumpCountMAX;
+        [SerializeField] float jumpDownForce;
+        [SerializeField] float jumpButtonTimer;
+        [SerializeField] float jumpButtonOGTime;
         [SerializeField] public bool jumpButtonPressed;
 
         [Header("Comp")]
@@ -54,6 +58,7 @@ namespace AwesomsseyEngine
 
         [Header("Script Ref")]
         [SerializeField] GroundCheck groundCheck;
+        [SerializeField] AttaCollisions attaCollisions;
 
 
         // Start is called before the first frame update
@@ -61,8 +66,10 @@ namespace AwesomsseyEngine
         {
             attaRig = GetComponent<Rigidbody2D>();
             attaAnim = GetComponent<Animator>();
+            attaCollisions = GetComponent<AttaCollisions>();
             // groundCheck = GetComponent<GroundCheck>();
             isFacingRight = true;
+            jumpButtonOGTime = jumpButtonTimer;
             ogVelXMAX = velcXMAX; ///GRAB CURRENT VELCX FOR SLIDE
         }
 
@@ -194,10 +201,17 @@ namespace AwesomsseyEngine
 
             }
 
+            if(jumpingState == true)
+            {
+                jumpButtonTimer -= Time.deltaTime;
+            }
+
             else if (Input.GetButtonUp("Jump") == true)
             {
+                print("jump key up");
                 jumpingState = false;
                 jumpButtonPressed = false;
+                jumpButtonTimer = jumpButtonOGTime;
             }
 
 
@@ -207,7 +221,7 @@ namespace AwesomsseyEngine
                 //attaAnim.SetBool("Jump", false);
                 //attaAnim.SetBool("Idle", true);
                 print("GravityScale is Grouneded");
-                attaRig.gravityScale = 1f;
+                //attaRig.gravityScale = 1f;
 
 
             }
@@ -247,7 +261,8 @@ namespace AwesomsseyEngine
         {
             if (jumpingState == true)
             {
-                Jump();
+                print("jump state is true");
+                //Jump();
             }
 
             if (slideState == true && jumpingState == false)
@@ -255,7 +270,7 @@ namespace AwesomsseyEngine
                 print("Slide Started");
                 StartCoroutine(TailSlide());
             }
-            if (slideState == false)///RESET VELCXMAX
+            if (slideState == false)///RESET VELCXMAX - Velocity X changes for the Slide
             {
                 velcXMAX = ogVelXMAX;
             }
@@ -300,14 +315,15 @@ namespace AwesomsseyEngine
             {
                 attaRig.velocity = new Vector2(-velcXMAX, attaRig.velocity.y);
             }
-            if (attaRig.velocity.y <= -velYMAX) ///POS Y
+            if (attaRig.velocity.y <= velYFallMAX) ///POS Y
             {
-                attaRig.velocity = new Vector2(attaRig.velocity.x, -velYMAX);
+                attaRig.velocity = new Vector2(attaRig.velocity.x, velYFallMAX);
             }
 
-            if (attaRig.velocity.y < 0)///JUMP FALL
+            if (attaRig.velocity.y < 0 && groundCheck.grounded == false)///JUMP FALL
             {
                 print("Velocity Fall");
+                attaAnim.SetBool("Jump", true);
                 attaRig.gravityScale = 2f;
             }
 
@@ -347,16 +363,30 @@ namespace AwesomsseyEngine
             jumpButtonPressed = true;///STOPS HOLDING
             attaAnim.SetBool("Jump", true);
             //attaAnim.SetBool("Idle", false);
+           
             print("Jump Anim is = = " + attaAnim.GetBool("Jump"));
-            attaRig.gravityScale = 1.5f;
+            attaRig.gravityScale = 1.5f;///GRAVITY RESET ON GROUNDED
             attaRig.AddForce(jumpPower * Vector2.up * Time.deltaTime, ForceMode2D.Impulse);///35 1.5
-            if (attaRig.velocity.y >= velYMAX)
+            print("jump is exec + velcy = " + attaRig.velocity.y) ;
+
+            if(attaRig.velocity.y > 1)///Downaward Force
+            {
+                attaRig.AddForce(jumpDownForce * Vector2.down * Time.deltaTime, ForceMode2D.Impulse);
+            }
+            //if(jumpButtonTimer <= 0)
+           // {
+                //jumpingState = false;
+                //jumpButtonTimer = jumpButtonOGTime;
+           // }
+            if (attaRig.velocity.y > velYMAX)///Cut out Jumping state
             {
                 jumpingState = false;
+                print("jump reached MAX");
+                jumpButtonTimer = jumpButtonOGTime;
             }
         }
 
-        IEnumerator TailSlide()
+        IEnumerator TailSlide()///INVUL PLAYER FROM ENEMY LAYER!!!
         {
             print("Slide Func");
             attaAnim.SetBool("Slide", true);
@@ -373,8 +403,12 @@ namespace AwesomsseyEngine
                     print("Slide hit Enemy");
                 }
             }
+            attaCollisions.invulState = true;///Set Up Invul STATE 
+            this.gameObject.layer = 10; ///10 = Slide Layer - No Enemy Collisions
             yield return new WaitForSeconds(.5f);
+            this.gameObject.layer = 6; ///6 = Player Layer
             attaAnim.SetBool("Slide", false);
+            attaCollisions.invulState = false;///Reset INVUL STATE
             //velcXMAX = ogVelXMAX;
             print("Slide vel AFTER = " + velcXMAX);
             slideState = false;

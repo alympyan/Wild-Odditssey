@@ -16,14 +16,14 @@ namespace AwesomsseyEngine
         [SerializeField] bool luckyJumpstate;
         [SerializeField] bool luckyJumpingDontExec;
         [SerializeField] float luckyJumpPower;
-        [SerializeField] public float luckJCount;
-        [SerializeField] public float luckJMAX;
+        [SerializeField] public float luckJCount;///SAVE + LOAD 
+        [SerializeField] public float luckJMAX; ///Save + LOAD
         [Header("Color Bools")]
-        [SerializeField] public bool yellowJump;
-        [SerializeField] public bool blueJump;
-        [SerializeField] public bool greenJump;
-        [SerializeField] public bool redJump;
-        [SerializeField] public bool bowJump;
+        [SerializeField] public bool yellowJump;///SAVE + LOAD 
+        [SerializeField] public bool blueJump;///SAVE + LOAD 
+        [SerializeField] public bool greenJump;///SAVE + LOAD 
+        [SerializeField] public bool redJump;///SAVE + LOAD 
+        [SerializeField] public bool bowJump;///SAVE + LOAD 
         [Header("Particle Colors")]
         [SerializeField] GameObject fxJumpBlue;
         [SerializeField] GameObject fxJumpRed;
