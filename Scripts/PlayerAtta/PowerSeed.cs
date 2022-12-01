@@ -79,6 +79,10 @@ namespace AwesomsseyEngine
             {
                 ///FUTURE PARTICLE
             }
+            if(collision.name.Contains("Wall"))///Hit Wall and Destroy!
+            {
+                deathState = true;
+            }
         }
 
 

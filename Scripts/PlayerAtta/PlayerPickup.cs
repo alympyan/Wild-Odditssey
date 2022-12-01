@@ -12,6 +12,7 @@ namespace AwesomsseyEngine
         [SerializeField] Rigidbody2D attaRig;
         [SerializeField] public  float appleNumbers;
         [SerializeField] bool objPicked;
+        [SerializeField] public bool appleFirstPiecked; ///For ORCHARD LEVEL SETS UP APPLE 
 
         [Header("SCripts")]
         [SerializeField] AttaItemDsp itemDsp;
@@ -39,6 +40,7 @@ namespace AwesomsseyEngine
             if(collision.tag == ("Apple") && objPicked == false && contexButtons.throwingState == false && contexButtons.appleQuant == 0)///MAYBE CHANGE LATER FOR NEW SYSTEM
             {
                 objPicked = true;///TRY TO STOP APPLE BEING PICKED TWICE
+                appleFirstPiecked = true;
                 ApplesInOrchard appleScript = collision.GetComponent<ApplesInOrchard>(); ///GET APPLE SCRIPT
                 appleScript.pieckedUp = true;
                 itemDsp.itemDspSR.sprite = itemDsp.appleSprite;///ITEMDISPLAY IN PLAYER

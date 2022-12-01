@@ -20,11 +20,14 @@ namespace AwesomsseyEngine
         [SerializeField] AudioClip roarTwoClip;
         [SerializeField] SpriteRenderer[] moutSR;
         [SerializeField] ParticleSystem[] rexPart;
+        [SerializeField] OrcharDialogue orchar;
         [Header("Opptions")]
         [SerializeField] float walkSpeed;
         [SerializeField] float rexHealth; ///Feed Apples to Reduce to Zero
+        [SerializeField] bool rexCameraShaked;
         [SerializeField] bool audioStompPlaying;
         [SerializeField] public bool rexStart;
+        [SerializeField] bool rexHasStarted;
         [SerializeField] public bool rexDead;
         [SerializeField] RaycastHit2D groundRay;
         [SerializeField] bool groundedRex;
@@ -36,6 +39,7 @@ namespace AwesomsseyEngine
             rexAnim = GetComponent<Animator>();
             rexAudio = GetComponent<AudioSource>();
             rexSR = GetComponent<SpriteRenderer>();
+            orchar = FindObjectOfType<OrcharDialogue>();
             moutSR = GetComponentsInChildren<SpriteRenderer>();
             rexPart = GetComponentsInChildren<ParticleSystem>();
         }
@@ -43,8 +47,13 @@ namespace AwesomsseyEngine
         // Update is called once per frame
         void Update()
         {
+         if(rexCameraShaked == false)///Shake Camera On Spawn
+            {
+
+            }
+
             //transform.position = Vector3.MoveTowards(transform.position, Vector3.right, Time.deltaTime * walkSpeed);
-            if (rexDead == false)
+            if (rexDead == false && rexStart == true)
             {
                 transform.Translate(transform.right * Time.deltaTime * walkSpeed);
                 StartCoroutine(RexStompAudio());
@@ -99,16 +108,29 @@ namespace AwesomsseyEngine
         {
             if(collision.name.Contains("Apple"))///NAME CONTAINS BECause Tags are set to player
             {
-                print("Rex has been hit");
-                rexHealth -= 1f;
-                Rigidbody2D appleRig = collision.GetComponent<Rigidbody2D>();
-                appleRig.velocity = Vector2.zero;
-                appleRig.constraints = RigidbodyConstraints2D.FreezeAll;
-                GameObject appleObj = collision.gameObject;
-                StartCoroutine(MouthEat());
-                ///FUTURE ANIMATION Code
-                ///FOR NOW KILL APPLE 
-                Destroy(appleObj);
+                ApplesInOrchard applesOrchard = collision.GetComponent<ApplesInOrchard>();
+                if (applesOrchard.pieckedUp == true)///ENSURE APPLE ISNT ON GROUND
+                {
+                    print("Rex has been hit");
+                    rexHealth -= 1f;
+                    Rigidbody2D appleRig = collision.GetComponent<Rigidbody2D>();
+                    appleRig.velocity = Vector2.zero;
+                    appleRig.constraints = RigidbodyConstraints2D.FreezeAll;
+                    GameObject appleObj = collision.gameObject;
+                    StartCoroutine(MouthEat());
+                    ///FUTURE ANIMATION Code
+                    ///FOR NOW KILL APPLE 
+                    Destroy(appleObj);
+                }
+            }
+        }
+
+        public void SetPosition()
+        {
+            if (rexHasStarted == false)
+            {
+                rexHasStarted = true;
+                transform.position = new Vector3(-0.01f, 1.76f);
             }
         }
 

@@ -23,9 +23,13 @@ namespace AwesomsseyEngine
         [SerializeField] public bool throwingState;
         [SerializeField] public float appleQuant;
 
+        [SerializeField] public bool grabbedFirstApple;
+
         [Header("Scripts")]
         [SerializeField] AttaItemDsp itemDsp;
         [SerializeField] PlayerPickup playerPickup;
+        [SerializeField] LevelGuide levelGuide;
+        [SerializeField] PlayerMove playerMove;
         ///FUTURE LEVELMAP SCRIPT - FEEEDS BOOL STATES
         ///SEPERATE CONTEXTBUTTONS SCRIPTS 
         // Start is called before the first frame update
@@ -34,21 +38,37 @@ namespace AwesomsseyEngine
             attaAnim = GetComponent<Animator>();
             playerPickup = FindObjectOfType<PlayerPickup>();
             itemDsp = FindObjectOfType<AttaItemDsp>();
+            playerMove = FindObjectOfType<PlayerMove>();
+            levelGuide = FindObjectOfType<LevelGuide>();
+
+
+            if (levelGuide.orchardLand == true)
+            {
+                this.enabled = true;
+            }
+
+            if (levelGuide.orchardLand == false)
+            {
+                this.enabled = false;
+            }
         }
 
         // Update is called once per frame
         void Update()
         {
+
+
             if (appy == true)///APPY LEVEL CONTEXT -CHANGE FOR DIFFERENT LANDS
             {
 
-                if (Input.GetButtonDown("Throw") == true && playerPickup.appleNumbers > 0 && throwingState == false && Input.GetAxis("Vertical") >= 0) ///ensure Not Sliding
+                if (Input.GetButtonDown("Throw") == true && playerPickup.appleNumbers > 0 && throwingState == false && playerMove.slideState == false ) ///ensure Not Sliding && Input.GetAxis("Vertical") >= 0
                 {
                     throwingState = true;
 
                 }
             }
-     
+            
+            
 
         }
 
