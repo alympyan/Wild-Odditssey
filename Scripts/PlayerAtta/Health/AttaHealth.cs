@@ -25,10 +25,16 @@ namespace AwesomsseyEngine
         [SerializeField] public bool healthUP8; ///SAVE VAR
         [Header("Life Counter")]
         [SerializeField] public float lifeCurrent; ///SAVE VAR
+        [Header("CheckPoint Lantern")]
+        [SerializeField] public Vector3 myCheckPointPos;
+        [SerializeField] float respawnTimer;
+        [SerializeField] bool fallenState;
         [Header("Scripts")]
         [SerializeField] GameEngine gameEngine;
         [SerializeField] GUIUpdater guiUpdater; ///SEND TO FOR GUI DATA - GUI SCRIPTS PULLS FROM HERE
-        ///FUTURE FOR SAVESYSTEM - SEND DAT TO AND LOAD DATA FROM
+                                                ///FUTURE FOR SAVESYSTEM - SEND DAT TO AND LOAD DATA FROM
+        [Header("Comp")]
+        [SerializeField] Animator myAnim;
 
 
 
@@ -38,6 +44,7 @@ namespace AwesomsseyEngine
         {
             gameEngine = FindObjectOfType<GameEngine>();
             guiUpdater = FindObjectOfType<GUIUpdater>();
+            myAnim = GetComponent<Animator>();
         }
 
         // Update is called once per frame
@@ -97,7 +104,39 @@ namespace AwesomsseyEngine
                 currentPlayerHealth = 0;
             }
 
-            ///future death code
+            ///future fall code
+            ///
+            if(currentPlayerHealth <= 0 && fallenState == false)
+            {
+
+                myAnim.SetBool("Fallen", true);
+              StartCoroutine(FallLife());
+            }
+
+        }
+
+        IEnumerator FallLife()
+        {
+            print("fall life is playing");
+            fallenState = true;
+            yield return new WaitForSeconds(respawnTimer);
+            currentPlayerHealth = CurrentPlayerMaxHealth;
+            if (myCheckPointPos != Vector3.zero)
+            {
+                this.transform.position = myCheckPointPos;
+            }
+
+            if (myCheckPointPos == Vector3.zero)
+            {
+                this.transform.position = Vector3.zero;
+            }
+            lifeCurrent -= 1f;
+           
+            myAnim.SetBool("Fallen", false);
+            myAnim.SetBool("Idle", true);
+            fallenState = false;
+
+            
         }
     }
 }

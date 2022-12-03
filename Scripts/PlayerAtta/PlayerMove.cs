@@ -252,7 +252,13 @@ namespace AwesomsseyEngine
 
             if(Input.GetButtonDown("Start"))
             {
-                EditorApplication.isPaused = true;
+                //EditorApplication.isPaused = true;
+            }
+
+            if(Input.GetButton("Start"))
+            {
+                print("Escaped!!");
+                Application.Quit();
             }
 
         }

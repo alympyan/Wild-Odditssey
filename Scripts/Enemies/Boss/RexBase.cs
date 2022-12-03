@@ -130,6 +130,7 @@ namespace AwesomsseyEngine
             if (rexHasStarted == false)
             {
                 rexHasStarted = true;
+               
                 transform.position = new Vector3(-0.01f, 1.76f);
             }
         }
