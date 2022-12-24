@@ -17,6 +17,7 @@ namespace AwesomsseyEngine
         [SerializeField] PlayerMove playerMove;///SAVE 
         [SerializeField] GameObject gameEngine; ///SAVE
         [SerializeField] GameObject guiCanvas; ///KEEP GUI - SAVE AND LOAD GUI
+        [SerializeField] Canvas guiCanvasObj;
         [SerializeField] bool playerLoaded;
 
         [Header("Scripts")]
@@ -28,6 +29,7 @@ namespace AwesomsseyEngine
             GameObject[] gameObject = GameObject.FindGameObjectsWithTag("GameEngine");
             GameObject[] attObj = GameObject.FindGameObjectsWithTag("Player");
             GameObject[] guiBottom = GameObject.FindGameObjectsWithTag("GUIBottom");
+            //Instantiate(guiCanvasObj, transform.position, transform.rotation);
 
             if(gameObject.Length > 1)
             {
@@ -58,14 +60,14 @@ namespace AwesomsseyEngine
         {
             DontDestroyOnLoad(playerMove.gameObject);
             DontDestroyOnLoad(this.gameObject);
-            DontDestroyOnLoad(guiCanvas);///GUICANVAS IS OBJECT TO SAVE ///GUIUPDATER IS SCRIPT ON GAMEENGINE
+            DontDestroyOnLoad(guiCanvasObj);///GUICANVAS IS OBJECT TO SAVE ///GUIUPDATER IS SCRIPT ON GAMEENGINE
            
         }
 
         // Update is called once per frame
         void Update()
         {
-
+            guiUpdater = FindObjectOfType<GUIUpdater>();
         }
     }
 }

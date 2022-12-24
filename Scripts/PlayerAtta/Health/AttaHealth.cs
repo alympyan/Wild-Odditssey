@@ -51,7 +51,8 @@ namespace AwesomsseyEngine
         void Update()
         {
             HpUpgrade();///CALL EVERY FRAME
-            ///FUTURE SET TO ONETIME EVENT ON PURCHJASE 
+           ///FUTURE SET TO ONETIME EVENT ON PURCHJASE 
+            guiUpdater = FindObjectOfType<GUIUpdater>();
         }
 
 
@@ -110,7 +111,10 @@ namespace AwesomsseyEngine
             {
 
                 myAnim.SetBool("Fallen", true);
-              StartCoroutine(FallLife());
+                guiUpdater.removeLifeAnim = true;
+                print("life removeExec");
+
+                StartCoroutine(FallLife());
             }
 
         }
@@ -119,6 +123,7 @@ namespace AwesomsseyEngine
         {
             print("fall life is playing");
             fallenState = true;
+            
             yield return new WaitForSeconds(respawnTimer);
             currentPlayerHealth = CurrentPlayerMaxHealth;
             if (myCheckPointPos != Vector3.zero)
@@ -134,6 +139,7 @@ namespace AwesomsseyEngine
            
             myAnim.SetBool("Fallen", false);
             myAnim.SetBool("Idle", true);
+            guiUpdater.removeLifeAnim = true;
             fallenState = false;
 
             

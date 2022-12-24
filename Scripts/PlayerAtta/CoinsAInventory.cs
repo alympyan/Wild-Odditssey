@@ -32,7 +32,7 @@ namespace AwesomsseyEngine
         // Update is called once per frame
         void Update()
         {
-
+            guiUpdater = FindObjectOfType<GUIUpdater>();
         }
     }
 

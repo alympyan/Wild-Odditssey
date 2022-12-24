@@ -59,6 +59,11 @@ namespace AwesomsseyEngine
         [SerializeField] float lifeCountGUI;
         [SerializeField] string lifeStringForGui;
         [SerializeField] TMP_Text lifeTexField;
+        [SerializeField] Animator lifeAnim;
+        [SerializeField] Image lifeAnimImage;
+        [SerializeField] public bool addLifeAnim;
+        [SerializeField] public bool removeLifeAnim;
+        [SerializeField] bool stopLifePlaying;
 
         [Header("Coins")]
         [SerializeField] float coinCount;
@@ -79,6 +84,7 @@ namespace AwesomsseyEngine
             seedShot = FindObjectOfType<SeedShot>();
             attaHealth = FindObjectOfType<AttaHealth>();
             coinsAInventory = FindObjectOfType<CoinsAInventory>();
+            
         }
 
         // Update is called once per frame
@@ -109,12 +115,39 @@ namespace AwesomsseyEngine
             CoinProgramGUI();
             AmmoProgramGUI();
             LevelNameGUI();
+
+            ///Life Effects
+            if(addLifeAnim == true && stopLifePlaying == false)
+            {
+                lifeAnim.SetBool("Add", true);
+                StartCoroutine(StopLifeAnim()); ///Stops Anim
+            }
+
+            if (removeLifeAnim == true && stopLifePlaying == false)
+            {
+                print("life remove is in GUI");
+                lifeAnim.SetBool("Remove", true);
+                StartCoroutine(StopLifeAnim());
+            }
         }
 
         void LifeProgramGUI()
         {///Convert LifeCount to String, send to GUI TEXT FIELD
             lifeStringForGui = lifeCountGUI.ToString();
             lifeTexField.text = "X" + lifeStringForGui;
+        }
+
+        IEnumerator StopLifeAnim()
+        {
+            stopLifePlaying = true;
+            //print("life stop secnds = " + lifeAnim.GetCurrentAnimatorStateInfo(0).length);
+            yield return new WaitForSeconds(.6f);
+            lifeAnim.SetBool("Add", false);
+            lifeAnim.SetBool("Remove", false);
+            addLifeAnim = false;
+            removeLifeAnim = false;
+            lifeAnim.SetBool("Idle", true);
+            stopLifePlaying = false;
         }
 
         void CoinProgramGUI()

@@ -76,6 +76,13 @@ namespace AwesomsseyEngine
         // Update is called once per frame
         void Update()
         {
+            Physics2D.SyncTransforms();
+            ///Player Null Set To DontDestroyOnLoad
+            if(transform.parent == null)
+            {
+                DontDestroyOnLoad(this.gameObject);
+            }///Loop End
+
             grounded = groundCheck.grounded;
             if (transform.right == Vector3.right)
             {
@@ -244,7 +251,7 @@ namespace AwesomsseyEngine
             //}
 
             ///TailSlide
-            if (Input.GetButtonDown("Throw") && vertInput < -.1f && walkState == false) ///ENSURE NO STATES INTERFERE
+            if (Input.GetButton("Throw") && vertInput < -.1f && walkState == false) ///ENSURE NO STATES INTERFERE
             {
                 print("Slide Button");
                 slideState = true;

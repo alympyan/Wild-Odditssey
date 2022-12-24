@@ -18,6 +18,7 @@ namespace AwesomsseyEngine
         void Start()
         {
             myAnim = GetComponent<Animator>();
+            checkPOS = transform.position;
         }
 
         // Update is called once per frame
@@ -34,6 +35,7 @@ namespace AwesomsseyEngine
                 collidedPlayer = true;
                 AttaHealth attaHealth = collision.GetComponent<AttaHealth>();
                 attaHealth.myCheckPointPos = checkPOS;
+                print("lantern new CheckPos");
                 myAnim.SetBool("Lit", true);
             }
         }

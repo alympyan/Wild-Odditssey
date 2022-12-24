@@ -21,6 +21,9 @@ namespace AwesomsseyEngine
         [SerializeField] Sprite redBagSprite;
         [SerializeField] ParticleSystem coinPart;
         [SerializeField] GameObject coinParticleObject;
+        [SerializeField] GameObject coinPartGreen;
+        [SerializeField] GameObject coinPartBlue;
+        [SerializeField] GameObject coinPartRed;
 
         [Header("Options")]
         [SerializeField] public bool greenSeeds;
@@ -32,6 +35,7 @@ namespace AwesomsseyEngine
         [SerializeField] bool animateStarted;
         [SerializeField] Vector3 animateRos;
         [SerializeField] float animateAngle;
+        [SerializeField] bool addState;
 
 
         // Start is called before the first frame update
@@ -48,7 +52,7 @@ namespace AwesomsseyEngine
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if(collision.tag == ("Player"))
+            if(collision.tag == ("Player") && addState == false)
             {
                 CoinsAInventory coinsInv = collision.GetComponent<CoinsAInventory>();
                 AddCoin(coinsInv);
@@ -63,8 +67,20 @@ namespace AwesomsseyEngine
 
         void AddCoin(CoinsAInventory coinInvFunc)
         {
+            addState = true;
             coinInvFunc.coinsCurrent += coinAmount;
-            Instantiate(coinParticleObject, transform.position, transform.rotation);
+            if (coinAmount == 1)
+            {
+                Instantiate(coinParticleObject, transform.position, transform.rotation);
+            }
+            if (coinAmount == 5)
+            {
+                Instantiate(coinPartGreen, transform.position, transform.rotation);
+            }
+            if (coinAmount == 10)
+            {
+                Instantiate(coinPartBlue, transform.position, transform.rotation);
+            }
             Destroy(gameObject);
         }
 

@@ -9,6 +9,7 @@ public class LifeUp : MonoBehaviour
   
     [Header("Sprites and More")]
     [SerializeField] SpriteRenderer lifeSR;
+    [SerializeField] GUIUpdater guiUp;
 
 
 
@@ -17,12 +18,13 @@ public class LifeUp : MonoBehaviour
     [SerializeField] float lifeAmount;
     [SerializeField] bool animateStarted;
     [SerializeField] Vector3 animatePos;
-        [SerializeField] bool pickedUp;
+    [SerializeField] bool pickedUp;
 
     // Start is called before the first frame update
     void Start()
     {
         lifeSR = GetComponent<SpriteRenderer>();
+            guiUp = FindObjectOfType<GUIUpdater>();
     }
 
     // Update is called once per frame
@@ -47,6 +49,7 @@ public class LifeUp : MonoBehaviour
         attaHealthScript.lifeCurrent += lifeAmount;
         ///Future Particle
         lifeSR.color = Color.magenta;
+        guiUp.addLifeAnim = true;
         StartCoroutine(LifeDestroy());
     }
 

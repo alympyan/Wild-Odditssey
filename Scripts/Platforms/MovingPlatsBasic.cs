@@ -44,7 +44,10 @@ namespace AwesomsseyEngine
         // Update is called once per frame
         void Update()
         {
-            if(directionPatternX == true)
+            
+            Physics2D.SyncTransforms();
+
+            if (directionPatternX == true)
             {
                 print("Plat Move DirX is True");
                 directionMoverX = new Vector3(1, 0);
@@ -78,8 +81,11 @@ namespace AwesomsseyEngine
 
             if (playerAttached == true)
             {
-                playerTrans[1].localPosition = playerTrans[1].localPosition;
+
                 Physics2D.SyncTransforms();
+                playerTrans[1].localPosition = playerTrans[1].localPosition;
+                
+                platRig.position = transform.position;
             }
 
 
@@ -88,13 +94,13 @@ namespace AwesomsseyEngine
 
         private void FixedUpdate()
         {
-            PlatPhysMove(rigForce);///MOVE
+          
 
             if (playerAttached == true)
             {
                 //playerRig[1].velocity = new Vector2(playerRig[1].velocity.x, platRig.velocity.y);
                 //playerRig[1].AddForce(Vector2.down * downForce  * Time.deltaTime, ForceMode2D.Impulse);
-                Physics2D.SyncTransforms();
+                //Physics2D.SyncTransforms();
             }
 
             if (playerAttached == true)
@@ -106,10 +112,16 @@ namespace AwesomsseyEngine
 
         private void LateUpdate()
         {
+            PlatPhysMove(rigForce);///MOVE
+
             if (playerAttached == true)
             {
                 //playerRig[1].velocity = new Vector2(playerRig[1].velocity.x, 0);
                 playerTrans[1].localPosition = playerTrans[1].localPosition;
+                this.transform.position = transform.position;
+                //Physics2D.SyncTransforms();
+                
+                //platRig.position = transform.position;
             }
         }
 
@@ -124,11 +136,12 @@ namespace AwesomsseyEngine
                 playerRig = collision.gameObject.GetComponentsInParent<Rigidbody2D>();
                 playerAttached = true;
                 playerRig[1].velocity = new Vector2(playerRig[1].velocity.x, 0);
-                print("Plat gravi 0");
+                print("Plat player attached");
                 playerMove = collision.GetComponentsInParent<PlayerMove>();
                 //playerMove[0].velYMAX = -0f;
                 //playerRig[1].gravityScale = 10f;
                 playerTrans[1].SetParent(this.transform);
+                playerRig[1].interpolation = RigidbodyInterpolation2D.None;
 
             }
         }
@@ -144,8 +157,8 @@ namespace AwesomsseyEngine
                 //playerTrans[1] = collision.gameObject.GetComponentsInParent<Transform>();
                 playerAttached = false;
                 //playerRig[1].gravityScale = 1f;
-                //playerTrans[1].SetParent(null);
-
+                playerTrans[1].SetParent(null);
+                playerRig[1].interpolation = RigidbodyInterpolation2D.Interpolate;
 
             }
         }

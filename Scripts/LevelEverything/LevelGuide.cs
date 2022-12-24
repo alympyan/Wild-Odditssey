@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System;
 using TMPro;
 using UnityEngine.UI;
+using Cinemachine;
 using UnityEngine;
 
 namespace AwesomsseyEngine
@@ -26,6 +27,7 @@ namespace AwesomsseyEngine
         [SerializeField] bool levelComplete;
         [SerializeField] bool levelCompleteFirstTime;///USe to Check if Level is Completed Once
         [SerializeField] string contextButtonName;
+        [SerializeField] CinemachineVirtualCamera myCM;
 
         [Header("Land Scripts")]
         
@@ -33,6 +35,7 @@ namespace AwesomsseyEngine
 
         [Header("Level Bools")] ///FEED TO RESPECTIVE SCRIPTS
         [SerializeField] public bool orchardLand;
+     
         
 
 
@@ -41,11 +44,14 @@ namespace AwesomsseyEngine
         {
             playerMove = FindObjectOfType<PlayerMove>();
             playerMove.transform.position = playerStartPos;
+            myCM = FindObjectOfType<CinemachineVirtualCamera>();
+            //cameraFollow = myCM.GetComponent<CameraFollow>();
             cameraFollow = pixelCamera.GetComponent<CameraFollow>();
             cameraFollow.levelOffSet = cameraOffSetLevel;///SET LEVEL CAMERA OFFSET
             leveName = GetComponent<LevelName>();
             levelString = leveName.levelName;
             attaPlayer = playerMove.gameObject;
+            
             ///FIND ALL LAND SCRIPTS
             contexButtons = FindObjectOfType<ContexButtons>();
 
