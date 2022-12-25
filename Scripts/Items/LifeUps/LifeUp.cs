@@ -19,6 +19,7 @@ public class LifeUp : MonoBehaviour
     [SerializeField] bool animateStarted;
     [SerializeField] Vector3 animatePos;
     [SerializeField] bool pickedUp;
+        [SerializeField] bool playingAnim;
 
     // Start is called before the first frame update
     void Start()
@@ -30,7 +31,10 @@ public class LifeUp : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+            if (playingAnim == false)
+            {
+                StartCoroutine(Anim());
+            }
     }
 
 
@@ -48,10 +52,21 @@ public class LifeUp : MonoBehaviour
     {
         attaHealthScript.lifeCurrent += lifeAmount;
         ///Future Particle
-        lifeSR.color = Color.magenta;
+        lifeSR.color = Color.green;
         guiUp.addLifeAnim = true;
         StartCoroutine(LifeDestroy());
     }
+
+
+        IEnumerator Anim()
+        {
+            playingAnim = true;
+            transform.position = transform.position + new Vector3(0, .1f);
+            yield return new WaitForSeconds(.5f);
+            transform.position = transform.position - new Vector3(0, .1f);
+            yield return new WaitForSeconds(.5f);
+            playingAnim = false;
+        }
 
     IEnumerator LifeDestroy()
     {

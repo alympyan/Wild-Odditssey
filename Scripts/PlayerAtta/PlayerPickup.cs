@@ -43,7 +43,16 @@ namespace AwesomsseyEngine
                 appleFirstPiecked = true;
                 ApplesInOrchard appleScript = collision.GetComponent<ApplesInOrchard>(); ///GET APPLE SCRIPT
                 appleScript.pieckedUp = true;
-                itemDsp.itemDspSR.sprite = itemDsp.appleSprite;///ITEMDISPLAY IN PLAYER
+                if(appleScript.goldenApple == false)
+                {
+                    itemDsp.itemDspSR.sprite = itemDsp.appleSprite;///ITEMDISPLAY IN PLAYER
+                }
+                if (appleScript.goldenApple == true)
+                {
+                    itemDsp.itemDspSR.sprite = itemDsp.appleGoldSprite;///ITEMDISPLAY IN PLAYER
+                    contexButtons.goldAppleEnabled = true;
+                }
+
 
                 GameObject appleObj = collision.gameObject;
                 SpriteRenderer appleSR = collision.GetComponent<SpriteRenderer>();

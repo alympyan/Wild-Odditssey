@@ -28,6 +28,7 @@ namespace AwesomsseyEngine
         [SerializeField] Rigidbody2D[] playerRig;
         [SerializeField] float downForce;
         [SerializeField] PlayerMove[] playerMove;
+        [SerializeField] bool leftDir;
        [Header("Comps")]
         [SerializeField] Rigidbody2D platRig;
        
@@ -53,6 +54,10 @@ namespace AwesomsseyEngine
                 directionMoverX = new Vector3(1, 0);
                 directionPatternY = false;
                 rigForce = new Vector2(dirFloat, 0);
+                if(leftDir == true)
+                {
+                    rigForce = new Vector2(-dirFloat, 0);
+                }
                 //transform.Translate(directionMoverX * Time.deltaTime * moveSpeed * dirFloat);
                 //PlatPhysMove(rigForce);
             }
@@ -165,7 +170,7 @@ namespace AwesomsseyEngine
 
 
 
-        IEnumerator PlatMover()
+        IEnumerator PlatMover() ///MOVE CODE
         {
             movingState = true;
             print("Plat Move PlatMover is True");

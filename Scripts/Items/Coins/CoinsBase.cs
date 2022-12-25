@@ -24,6 +24,7 @@ namespace AwesomsseyEngine
         [SerializeField] GameObject coinPartGreen;
         [SerializeField] GameObject coinPartBlue;
         [SerializeField] GameObject coinPartRed;
+        [SerializeField] GameObject coinPartSilver;
 
         [Header("Options")]
         [SerializeField] public bool greenSeeds;
@@ -80,6 +81,13 @@ namespace AwesomsseyEngine
             if (coinAmount == 10)
             {
                 Instantiate(coinPartBlue, transform.position, transform.rotation);
+            }
+
+
+
+            if (coinAmount == 100)
+            {
+                Instantiate(coinPartSilver, transform.position, transform.rotation);
             }
             Destroy(gameObject);
         }

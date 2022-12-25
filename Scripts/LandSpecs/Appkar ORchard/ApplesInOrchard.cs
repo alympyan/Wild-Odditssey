@@ -10,7 +10,10 @@ namespace AwesomsseyEngine
         [SerializeField] public bool pieckedUp;
         [SerializeField] BoxCollider2D appleBox;
         [SerializeField] SpriteRenderer appleSR;
+        [SerializeField] Sprite goldApple;
         [SerializeField] Sprite rottenSprite;
+        [SerializeField] public bool goldenApple;
+        [SerializeField] bool hitPlat;
         // Start is called before the first frame update
         void Start()
         {
@@ -22,7 +25,10 @@ namespace AwesomsseyEngine
         // Update is called once per frame
         void Update()
         {
-
+            if(goldenApple == true && hitPlat == false)
+            {
+                appleSR.sprite = goldApple;
+            }
         }
 
         private void OnTriggerStay2D(Collider2D collision)///BEFORE THROWN TRIGGER
@@ -44,6 +50,7 @@ namespace AwesomsseyEngine
         {
             if (collision.gameObject.tag == ("Platforms") && pieckedUp == true) ///CHANGE TO ROTTEN WHEN SPAWNED FROM CONTEXTBUTTONS
             {
+                hitPlat = true;
                 print("apple Rotted Mode and Picked up True");
                 appleRig.velocity = new Vector2(appleRig.velocity.x, 0);
                 appleRig.constraints = RigidbodyConstraints2D.FreezeAll;

@@ -31,7 +31,21 @@ namespace AwesomsseyEngine
         [SerializeField] public bool rexDead;
         [SerializeField] RaycastHit2D groundRay;
         [SerializeField] bool groundedRex;
-        
+        [Header("WayPoints")]
+        [SerializeField] GameObject wayA;
+        [SerializeField] GameObject wayB;
+        [SerializeField] GameObject wayC;
+        [SerializeField] GameObject wayD;
+        [SerializeField] GameObject wayE;
+        [SerializeField] GameObject wayF;
+        [SerializeField] public bool wayAbool;
+        [SerializeField] public bool wayBbool;
+        [SerializeField] public bool wayCbool;
+        [SerializeField] public bool wayDbool;
+        [SerializeField] public bool wayEbool;
+        [SerializeField] public bool wayFbool;
+
+
         // Start is called before the first frame update
         void Start()
         {
@@ -53,10 +67,45 @@ namespace AwesomsseyEngine
             }
 
             //transform.position = Vector3.MoveTowards(transform.position, Vector3.right, Time.deltaTime * walkSpeed);
-            if (rexDead == false && rexStart == true)
+            if (rexDead == false && rexStart == true)///MOVE CODE
             {
-                transform.Translate(transform.right * Time.deltaTime * walkSpeed);
                 StartCoroutine(RexStompAudio());
+                if (wayAbool == true)
+                {
+                    //transform.Translate(transform.right * Time.deltaTime * walkSpeed);
+                   transform.position= Vector2.MoveTowards(transform.position, wayA.transform.position, walkSpeed * Time.deltaTime);
+                }
+                if (wayBbool == true)
+                {
+                    wayAbool = false;
+                    //transform.Translate(transform.right * Time.deltaTime * walkSpeed);
+                   transform.position = Vector2.MoveTowards(transform.position, wayB.transform.position, walkSpeed * Time.deltaTime);
+                }
+                if (wayCbool == true)
+                {
+                    wayBbool = false;
+                    //transform.Translate(transform.right * Time.deltaTime * walkSpeed);
+                    transform.position = Vector2.MoveTowards(transform.position, wayC.transform.position, walkSpeed * Time.deltaTime);
+                }
+                if (wayDbool == true)
+                {
+                    wayCbool = false;
+                    //transform.Translate(transform.right * Time.deltaTime * walkSpeed);
+                    transform.position = Vector2.MoveTowards(transform.position, wayD.transform.position, walkSpeed * Time.deltaTime);
+                }
+                if (wayEbool == true)
+                {
+                    wayDbool = false;
+                    //transform.Translate(transform.right * Time.deltaTime * walkSpeed);
+                    transform.position = Vector2.MoveTowards(transform.position, wayE.transform.position, walkSpeed * Time.deltaTime);
+                }
+                if (wayFbool == true)
+                {
+                    wayEbool = false;
+                    //transform.Translate(transform.right * Time.deltaTime * walkSpeed);
+                    transform.position = Vector2.MoveTowards(transform.position, wayF.transform.position, walkSpeed * Time.deltaTime);
+                }
+
             }
 
 
@@ -112,7 +161,15 @@ namespace AwesomsseyEngine
                 if (applesOrchard.pieckedUp == true)///ENSURE APPLE ISNT ON GROUND
                 {
                     print("Rex has been hit");
-                    rexHealth -= 1f;
+                    if(applesOrchard.goldenApple == true)
+                    {
+                        rexHealth -= 7;
+                    }
+                    if (applesOrchard.goldenApple == false)
+                    {
+                        rexHealth -= 1f;
+                    }
+                 
                     Rigidbody2D appleRig = collision.GetComponent<Rigidbody2D>();
                     appleRig.velocity = Vector2.zero;
                     appleRig.constraints = RigidbodyConstraints2D.FreezeAll;
@@ -123,6 +180,7 @@ namespace AwesomsseyEngine
                     Destroy(appleObj);
                 }
             }
+
         }
 
         public void SetPosition()

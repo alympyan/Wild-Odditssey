@@ -20,10 +20,12 @@ namespace AwesomsseyEngine
         [SerializeField] float appleSpeed;
         [SerializeField] Animator attaAnim;
         [SerializeField] GameObject spawnedObj;
+        [SerializeField] GameObject throwGold;
         [SerializeField] public bool throwingState;
         [SerializeField] public float appleQuant;
 
         [SerializeField] public bool grabbedFirstApple;
+        [SerializeField] public bool goldAppleEnabled;
 
         [Header("Scripts")]
         [SerializeField] AttaItemDsp itemDsp;
@@ -61,7 +63,7 @@ namespace AwesomsseyEngine
             if (appy == true)///APPY LEVEL CONTEXT -CHANGE FOR DIFFERENT LANDS
             {
 
-                if (Input.GetButtonDown("Throw") == true && playerPickup.appleNumbers > 0 && throwingState == false && playerMove.slideState == false ) ///ensure Not Sliding && Input.GetAxis("Vertical") >= 0
+                if (Input.GetButtonDown("Throw") == true && playerPickup.appleNumbers > 0 && throwingState == false && playerMove.slideState == false && Input.GetAxis("Vertical") > -.1) ///ensure Not Sliding && Input.GetAxis("Vertical") >= 0
                 {
                     throwingState = true;
 
@@ -89,10 +91,26 @@ namespace AwesomsseyEngine
         {
             throwingState = false;
             attaAnim.SetBool("Tail", true);
-            itemDsp.itemDspSR.sprite = null;
-            spawnedObj = Instantiate(throwObj, transform.position + transform.right, transform.rotation);
+            itemDsp.itemDspSR.sprite = null;///Disable ItemDisplay  
+         
+            if(goldAppleEnabled == false)
+            {
+                print("appal");
+                spawnedObj = Instantiate(throwObj, transform.position + transform.right, transform.rotation);
+            }
+            if (goldAppleEnabled == true)///SEcond otherwise turns off
+            {
+                print("gold");
+                spawnedObj = Instantiate(throwObj, transform.position + transform.right, transform.rotation);
+                ApplesInOrchard appleScriptGold = spawnedObj.GetComponent<ApplesInOrchard>();///GET APPLE SCRIPT
+                appleScriptGold.goldenApple = true;
+                goldAppleEnabled = false;
+            }
+
+            //spawnedObj = Instantiate(throwObj, transform.position + transform.right, transform.rotation);
             ApplesInOrchard appleScript = spawnedObj.GetComponent<ApplesInOrchard>();///GET APPLE SCRIPT
             appleScript.pieckedUp = true;///SET PICKED UP TO TRUE SO ROTTEN ON PLATFORM HIT
+            
             Rigidbody2D spawnRig = spawnedObj.GetComponent<Rigidbody2D>();
             spawnedObj.tag = ("Player");///SET TAG AS PLAYER - LETS REX EAT
             spawnRig.isKinematic = false;

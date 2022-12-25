@@ -35,6 +35,7 @@ namespace AwesomsseyEngine
                                                 ///FUTURE FOR SAVESYSTEM - SEND DAT TO AND LOAD DATA FROM
         [Header("Comp")]
         [SerializeField] Animator myAnim;
+        [SerializeField] Rigidbody2D attaRig;
 
 
 
@@ -45,6 +46,7 @@ namespace AwesomsseyEngine
             gameEngine = FindObjectOfType<GameEngine>();
             guiUpdater = FindObjectOfType<GUIUpdater>();
             myAnim = GetComponent<Animator>();
+            attaRig = GetComponent<Rigidbody2D>();
         }
 
         // Update is called once per frame
@@ -136,7 +138,7 @@ namespace AwesomsseyEngine
                 this.transform.position = Vector3.zero;
             }
             lifeCurrent -= 1f;
-           
+            attaRig.constraints = RigidbodyConstraints2D.FreezeRotation;
             myAnim.SetBool("Fallen", false);
             myAnim.SetBool("Idle", true);
             guiUpdater.removeLifeAnim = true;

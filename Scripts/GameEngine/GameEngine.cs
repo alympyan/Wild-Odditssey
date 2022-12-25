@@ -67,6 +67,8 @@ namespace AwesomsseyEngine
         // Update is called once per frame
         void Update()
         {
+            guiCanvasObj = FindObjectOfType<Canvas>();
+            guiCanvasObj.enabled = true;
             guiUpdater = FindObjectOfType<GUIUpdater>();
         }
     }
