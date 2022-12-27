@@ -20,6 +20,10 @@ namespace AwesomsseyEngine
         [SerializeField] Canvas guiCanvasObj;
         [SerializeField] bool playerLoaded;
 
+        [Header("Main Lvel Complete Bool")]
+        [SerializeField] public bool orchardUnlocked;
+        [SerializeField] public bool carnevileUnlocked;
+
         [Header("Scripts")]
         [SerializeField] AttaHealth attaHealth; ///SCRIPT TO SEND HEALTH TO -- OPTIONJ 2 ATTAHEALTH PULLS AND SENDS TO SAVEMASTER
         [SerializeField] GUIUpdater guiUpdater;///SAVE

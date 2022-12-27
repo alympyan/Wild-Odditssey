@@ -31,6 +31,9 @@ namespace AwesomsseyEngine
         [SerializeField] public bool rexDead;
         [SerializeField] RaycastHit2D groundRay;
         [SerializeField] bool groundedRex;
+        [SerializeField] public bool hornSounded;
+        [SerializeField] float hornDelay;
+        [SerializeField] bool hornPlaying;
         [Header("WayPoints")]
         [SerializeField] GameObject wayA;
         [SerializeField] GameObject wayB;
@@ -66,8 +69,18 @@ namespace AwesomsseyEngine
 
             }
 
+         if(hornSounded == true && hornPlaying == false)///Horn Sounded Code
+            {
+                StartCoroutine(HornDelay());
+            }
+
+         if(hornSounded == false)
+            {
+
+            }
+
             //transform.position = Vector3.MoveTowards(transform.position, Vector3.right, Time.deltaTime * walkSpeed);
-            if (rexDead == false && rexStart == true)///MOVE CODE
+            if (rexDead == false && rexStart == true && hornSounded == false)///MOVE CODE
             {
                 StartCoroutine(RexStompAudio());
                 if (wayAbool == true)
@@ -153,6 +166,15 @@ namespace AwesomsseyEngine
 
         }
 
+        IEnumerator HornDelay()
+        {
+            hornPlaying = true;
+            yield return new WaitForSeconds(hornDelay);
+            hornSounded = false;
+            hornPlaying = false;
+        }
+
+
         private void OnTriggerStay2D(Collider2D collision)
         {
             if(collision.name.Contains("Apple"))///NAME CONTAINS BECause Tags are set to player
@@ -195,7 +217,7 @@ namespace AwesomsseyEngine
 
         IEnumerator RexStompAudio()
         {
-            if (rexDead == false && audioStompPlaying == false)
+            if (rexDead == false && audioStompPlaying == false && hornSounded == false)///Disable Stomp When Horn
             {
                 print("Rex AudioIE");
                 rexAudio.Play();

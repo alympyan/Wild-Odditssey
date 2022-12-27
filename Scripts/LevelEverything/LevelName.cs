@@ -12,6 +12,7 @@ namespace AwesomsseyEngine
         /// </summary>
         /// 
         [SerializeField] public string levelName;
+        [SerializeField] string levelNameInput;
         // Start is called before the first frame update
         void Start()
         {
@@ -21,7 +22,7 @@ namespace AwesomsseyEngine
         // Update is called once per frame
         void Update()
         {
-
+            
         }
     }
 }

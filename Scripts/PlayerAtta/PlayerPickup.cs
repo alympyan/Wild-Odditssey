@@ -13,6 +13,7 @@ namespace AwesomsseyEngine
         [SerializeField] public  float appleNumbers;
         [SerializeField] bool objPicked;
         [SerializeField] public bool appleFirstPiecked; ///For ORCHARD LEVEL SETS UP APPLE 
+        [SerializeField] public bool hasCart;
 
         [Header("SCripts")]
         [SerializeField] AttaItemDsp itemDsp;
