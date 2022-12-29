@@ -37,6 +37,13 @@ namespace AwesomsseyEngine
         [SerializeField] Vector3 rayOffsetRight;
         [SerializeField] Vector3 rayOffsetLeft;
         [SerializeField] bool colliding;
+        [Header("SDTrings")]
+        [SerializeField] public string item0AString; ///SAVE + LOAD
+        [SerializeField] public string item1AString; ///SAVE + LOAD
+        [SerializeField] public string item2AString; ///SAVE + LOAD
+        [SerializeField] public string item3AString; ///SAVE + LOAD
+        [SerializeField] public string item4AString; ///SAVE + LOAD
+        [SerializeField] public string item5AString; ///SAVE + LOAD
         [Header("Comp")]
         [SerializeField] PlayerMove playerMove; ///GET KLADDER BOOL STOPS PLAYER FROM SPAWNING ON LADDER
         [SerializeField] AttaItemBoxColl attaItemColl;///Box collider checks for clear space to spawn item - spawn item pos
@@ -52,7 +59,10 @@ namespace AwesomsseyEngine
         // Update is called once per frame
         void Update()
         {
-            if(noUpgradeA == true)
+
+            StringToObj();
+
+            if (noUpgradeA == true)
             {
                 item2A = null;
                 item3A = null;
@@ -133,6 +143,35 @@ namespace AwesomsseyEngine
         }
 
 
+        void StringToObj()///Convert Stored String to Object - Ensure All Obj are in Scene USE StoredOBJREf prefab
+        {
+            if (item0AString != null)
+            {
+                item0A = GameObject.Find(item0AString);
+            }
+            if (item1AString != null)
+            {
+                item1A = GameObject.Find(item1AString);
+            }
+            if (item2AString != null)
+            {
+                item2A = GameObject.Find(item2AString);
+            }
+            if (item3AString != null)
+            {
+                item3A = GameObject.Find(item3AString);
+            }
+            if (item4AString != null)
+            {
+                item4A = GameObject.Find(item4AString);
+            }
+            if (item5AString != null)
+            {
+                item5A = GameObject.Find(item5AString);
+            }
+        }
+
+
         void WallDetection()
         {
            
@@ -165,6 +204,7 @@ namespace AwesomsseyEngine
           if(itemCurrentIndex == 0 && item0A != null)
             {
                 hotBarPrepA = item0A;
+               
                
             }
 
@@ -216,23 +256,27 @@ namespace AwesomsseyEngine
             }
         }
 
-        void HotBarDeleteItem()
+        void HotBarDeleteItem()///Delete STRINGS!!!
         {
             if (itemCurrentIndex == 0)
             {
                item0A = null;
+                item0AString = null;
             }
             if (itemCurrentIndex == 1 && item1A != null)
             {
                 item1A = null;
+                item1AString = null;
             }
             if (itemCurrentIndex == 2 && item2A != null) ///3!
             {
                 item2A = null;
+                item2AString = null;
             }
             if (itemCurrentIndex == 3 && item3A != null) ///4!!!
             {
                 item3A = null;
+                item3AString = null;
             }
         
            

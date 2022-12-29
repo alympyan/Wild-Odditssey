@@ -18,7 +18,7 @@ namespace AwesomsseyEngine
         // Start is called before the first frame update
         void Start()
         {
-            gameEngine = FindObjectOfType<GameEngine>();
+            //gameEngine = FindObjectOfType<GameEngine>();
             odditWarp = FindObjectOfType<KladderWarp>();
             myAnim = GetComponent<Animator>();
             

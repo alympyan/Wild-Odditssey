@@ -59,6 +59,7 @@ namespace AwesomsseyEngine
         [Header("Script Ref")]
         [SerializeField] GroundCheck groundCheck;
         [SerializeField] AttaCollisions attaCollisions;
+        [SerializeField] SaveData saveData;
 
 
         // Start is called before the first frame update
@@ -76,6 +77,12 @@ namespace AwesomsseyEngine
         // Update is called once per frame
         void Update()
         {
+            saveData = FindObjectOfType<SaveData>();
+            if(Input.GetButtonDown("Start"))
+            {
+                saveData.SaveGame();
+            }
+
             Physics2D.SyncTransforms();
             ///Player Null Set To DontDestroyOnLoad
             if(transform.parent == null)
@@ -204,7 +211,8 @@ namespace AwesomsseyEngine
                 attaAnim.SetBool("Jump", true);
                 jumpingState = true;
                 print("Jump Pressed");
-
+                //SaveData.orchardCompleteS = true;
+               //print("SaveDAta is = " + SaveData.orchardComplete);
 
             }
 
@@ -219,6 +227,7 @@ namespace AwesomsseyEngine
                 jumpingState = false;
                 jumpButtonPressed = false;
                 jumpButtonTimer = jumpButtonOGTime;
+            
             }
 
 
@@ -229,7 +238,7 @@ namespace AwesomsseyEngine
                 //attaAnim.SetBool("Idle", true);
                 print("GravityScale is Grouneded");
                 //attaRig.gravityScale = 1f;
-
+              
 
             }
 

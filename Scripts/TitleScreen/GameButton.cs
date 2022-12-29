@@ -8,7 +8,7 @@ using UnityEngine;
 
 namespace AwesomsseyEngine
 {
-    public class GameButton : MonoBehaviour
+    public class GameButton : MonoBehaviour, ISelectHandler, IDeselectHandler
     {
 
         [SerializeField] BaseEventData m_BaseData;
@@ -18,7 +18,9 @@ namespace AwesomsseyEngine
         [SerializeField] Sprite buttonClicked;
         [SerializeField] Sprite buttonIdle;
         [SerializeField] Sprite buttonHover;
+        [SerializeField] Image myStar;
         [SerializeField] bool cursorOn;
+        [SerializeField] bool selected;
         [SerializeField] public bool startButton;
         [SerializeField] bool exitButton;
 
@@ -74,11 +76,17 @@ namespace AwesomsseyEngine
 
         public void OnSelect(BaseEventData baseData)
         {
-            //print("High");
-            
+            print("High");
+          
+            myStar.enabled = true;
 
         }
 
+        public void OnDeselect(BaseEventData baseData)
+        {
+            print("Low");
+            myStar.enabled = false;
+        }
       
 
         private void OnGUI()
@@ -86,24 +94,34 @@ namespace AwesomsseyEngine
            
         }
 
-        IEnumerator DelayButton()
+        public IEnumerator DelayButton()
         {
             yield return new WaitForSeconds(.5f);
             LoadNewGame();
         }
 
-        IEnumerator DelayExit()
+        public void Exit()
+        {
+            StartCoroutine(DelayExit());
+        }
+       public IEnumerator DelayExit()
         {
             print("Yoyo");
             yield return new WaitForSeconds(.5f);
             Application.Quit();
         }
 
+        public void LoadPrepGame()
+        {
+            StartCoroutine(DelayButton());
+            
+        }
+
         public void LoadNewGame()
         {
             SceneManager.LoadScene("SampleScene", LoadSceneMode.Single);
-            
+
         }
-       
+
     }
 }

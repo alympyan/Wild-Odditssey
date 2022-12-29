@@ -44,7 +44,7 @@ namespace AwesomsseyEngine
         {
             playerMove = FindObjectOfType<PlayerMove>();
             playerMove.transform.position = playerStartPos;
-            myCM = FindObjectOfType<CinemachineVirtualCamera>();
+            //myCM = FindObjectOfType<CinemachineVirtualCamera>();
             //cameraFollow = myCM.GetComponent<CameraFollow>();
             cameraFollow = pixelCamera.GetComponent<CameraFollow>();
             cameraFollow.levelOffSet = cameraOffSetLevel;///SET LEVEL CAMERA OFFSET

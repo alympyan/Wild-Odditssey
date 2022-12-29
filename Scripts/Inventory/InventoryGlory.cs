@@ -88,12 +88,15 @@ namespace AwesomsseyEngine
                 hotBarImage.enabled = false;
             }
 
-
-            SpriteRenderer hotbarItemSR = hotBarItem.GetComponent<SpriteRenderer>();///GRAB HOTBARITEM
-            Sprite hotBarSprite = hotbarItemSR.sprite;
-            hotBarImage.sprite = hotBarSprite;
-            hotBarImage.enabled = true;
-            hotBarImage.rectTransform.sizeDelta = new Vector2(81.6699f, 69.6106f);
+            if(hotBarItem != null)///Remove If this doesnt work !!!!!!!!!!!!!
+            {
+                SpriteRenderer hotbarItemSR = hotBarItem.GetComponent<SpriteRenderer>();///GRAB HOTBARITEM
+                Sprite hotBarSprite = hotbarItemSR.sprite;
+                hotBarImage.sprite = hotBarSprite;
+                hotBarImage.enabled = true;
+                hotBarImage.rectTransform.sizeDelta = new Vector2(81.6699f, 69.6106f);
+            }
+       
         }
 
 

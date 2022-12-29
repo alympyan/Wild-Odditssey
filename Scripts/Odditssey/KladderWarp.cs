@@ -27,7 +27,7 @@ namespace AwesomsseyEngine
         // Start is called before the first frame update
         void Start()
         {
-            mainCam = FindObjectOfType<Camera>();
+            //mainCam = FindObjectOfType<Camera>();
             myAnim = GetComponent<Animator>();
 
         }
@@ -67,7 +67,9 @@ namespace AwesomsseyEngine
                 //mainCam.transform.position = warpPoint.transform.position + new Vector3(0, 0, -10);
                 // attaObj.transform.position = warpPoint.transform.position;
                 //SceneManager.LoadSceneAsync(sceneIndex);
-                if (sceneStringOdd != null)
+                PlayerMove player = collision.GetComponent<PlayerMove>();
+
+                if (sceneStringOdd != null && player.kladderOn == true)
                 {
                     SceneManager.LoadSceneAsync(sceneStringOdd);///Load By String From Odditssey
                 }
