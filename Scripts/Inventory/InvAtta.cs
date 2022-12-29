@@ -29,7 +29,7 @@ namespace AwesomsseyEngine
         [Header("HotBar")]
         [SerializeField] public GameObject hotBarPrepA;
         [SerializeField] int itemSlotMax;
-        [SerializeField] int itemCurrentIndex; ///SAVE + LOAD
+        [SerializeField] public int itemCurrentIndex; ///SAVE + LOAD
         [Header("Item Use")]
         [SerializeField] GameObject spawnedItem;
         [SerializeField] float dpadAxis;

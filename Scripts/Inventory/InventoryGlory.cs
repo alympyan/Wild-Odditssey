@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine.UI;
+using TMPro;
 //using UnityEngine.UIElements;
 using UnityEngine;
 
@@ -41,6 +42,7 @@ namespace AwesomsseyEngine
         [SerializeField] bool baggyPockets; ///SAVE + LOAD
         [Header("HotBar")]
         [SerializeField] GameObject hotBarPrep;
+        [SerializeField] TMP_Text invNumTextField;
         
 
 
@@ -96,10 +98,33 @@ namespace AwesomsseyEngine
                 hotBarImage.enabled = true;
                 hotBarImage.rectTransform.sizeDelta = new Vector2(81.6699f, 69.6106f);
             }
+            IndexText();
        
         }
 
-
+       void IndexText()
+        {
+            if(invAtta.itemCurrentIndex == 0)
+            {
+                invNumTextField.text = "1";
+            }
+            if (invAtta.itemCurrentIndex == 1)
+            {
+                invNumTextField.text = "2";
+            }
+            if (invAtta.itemCurrentIndex == 2)
+            {
+                invNumTextField.text = "3";
+            }
+            if (invAtta.itemCurrentIndex == 3)
+            {
+                invNumTextField.text = "4";
+            }
+            if (invAtta.itemCurrentIndex == 4)
+            {
+                invNumTextField.text = "5";
+            }
+        }
        
     }
 }

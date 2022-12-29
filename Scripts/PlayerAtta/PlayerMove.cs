@@ -72,6 +72,7 @@ namespace AwesomsseyEngine
             isFacingRight = true;
             jumpButtonOGTime = jumpButtonTimer;
             ogVelXMAX = velcXMAX; ///GRAB CURRENT VELCX FOR SLIDE
+            
         }
 
         // Update is called once per frame
@@ -81,6 +82,10 @@ namespace AwesomsseyEngine
             if(Input.GetButtonDown("Start"))
             {
                 saveData.SaveGame();
+            }
+            if(Input.GetButtonDown("Select"))
+            {
+                saveData.LoadGame();
             }
 
             Physics2D.SyncTransforms();
@@ -333,13 +338,13 @@ namespace AwesomsseyEngine
             {
                 attaRig.velocity = new Vector2(attaRig.velocity.x, velYMAX);
             }
-            if (attaRig.velocity.x <= -velcXMAX)///POS X
+            if (attaRig.velocity.x <= -velcXMAX)///Neg X
             {
                 attaRig.velocity = new Vector2(-velcXMAX, attaRig.velocity.y);
             }
-            if (attaRig.velocity.y <= velYFallMAX) ///POS Y
+            if (attaRig.velocity.y <= velYFallMAX) ///Neg Y
             {
-                attaRig.velocity = new Vector2(attaRig.velocity.x, velYFallMAX);
+                attaRig.velocity = new Vector2(attaRig.velocity.x, velYFallMAX);///Use Fall MAx
             }
 
             if (attaRig.velocity.y < 0 && groundCheck.grounded == false)///JUMP FALL

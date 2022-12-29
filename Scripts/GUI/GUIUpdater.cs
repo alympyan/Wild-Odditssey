@@ -23,6 +23,7 @@ namespace AwesomsseyEngine
         [SerializeField] SeedShot seedShot; /// CALLS FOR SEED AMMO AND UPgrades
         [SerializeField] AttaHealth attaHealth;
         [SerializeField] CoinsAInventory coinsAInventory;
+       
         /// <summary>
         /// FUTURE COIN 
         /// </summary>
@@ -75,7 +76,8 @@ namespace AwesomsseyEngine
         [SerializeField] string levelString;
         [SerializeField] TMP_Text levelTextField;
 
-
+        [Header("HotBar")]
+        [SerializeField] int hotBarIndex;
 
         // Start is called before the first frame update
         void Start()
@@ -83,6 +85,7 @@ namespace AwesomsseyEngine
             gameEngine = FindObjectOfType<GameEngine>();
             seedShot = FindObjectOfType<SeedShot>();
             attaHealth = FindObjectOfType<AttaHealth>();
+            
             coinsAInventory = FindObjectOfType<CoinsAInventory>();
             
         }

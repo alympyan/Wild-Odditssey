@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System;
+using UnityEngine.SceneManagement;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.IO;
 using UnityEngine;
@@ -10,6 +11,8 @@ namespace AwesomsseyEngine
     [Serializable]
     public class SaveData : MonoBehaviour
     {
+        [SerializeField] Scene startScene;
+        [SerializeField] string startSceneString;
 
         [Header("Lvl Complete Bool GameEngie")]
         public  bool orchardCompleteS;
@@ -59,6 +62,7 @@ namespace AwesomsseyEngine
         [SerializeField] public bool ammoUp2S;  ///SAVE VAR - FEED TO GAMEENGNE
 
         [Header("LuckyJumps")]
+        [SerializeField]  bool luckyJumpModeS;
         [SerializeField]  bool yellowJumpS;///SAVE + LOAD 
         [SerializeField]  bool blueJumpS;///SAVE + LOAD 
         [SerializeField]  bool greenJumpS;///SAVE + LOAD 
@@ -74,6 +78,7 @@ namespace AwesomsseyEngine
         [SerializeField] AttaHealth attaHealth;
         [SerializeField] CoinsAInventory attaCoins;
         [SerializeField] SeedShot seeds;
+        [SerializeField] public bool loadedRef;
         // Start is called before the first frame update
         void Start()
         {
@@ -84,6 +89,8 @@ namespace AwesomsseyEngine
             inventory = FindObjectOfType<InvAtta>();
             attaCoins = FindObjectOfType<CoinsAInventory>();
             seeds= FindObjectOfType<SeedShot>();
+            loadedRef = true;
+            LoadGame();///Switch To GameObject To Call Script
         }
 
         // Update is called once per frame
@@ -158,10 +165,12 @@ namespace AwesomsseyEngine
 
             BinaryFormatter bf = new BinaryFormatter();
             FileStream file = File.Create(Application.persistentDataPath
-                         + "/MySaveData.dat");
+                         + "/OdditsseyData.oddt");
             SaveStorage storage = new SaveStorage();
             ///SAVE STARTS
             ///Lcuky Jumps
+            ///
+            storage.luckyJumpModeS = luckyJump.luckyJumpMode;
             storage.luckJMAXS = luckyJump.luckJMAX;
             storage.luckJCountS = luckyJump.luckJCount;
             storage.yellowJumpS = luckyJump.yellowJump;
@@ -179,6 +188,7 @@ namespace AwesomsseyEngine
             ///EndLevel
 
             ///Health
+            storage.lifeCurrentS = attaHealth.lifeCurrent;
             storage.attaCurrentHealthS = attaHealth.currentPlayerHealth;
             storage.attaMAXHealthS = attaHealth.CurrentPlayerMaxHealth;
             storage.healthUP0S = attaHealth.healthUP0;
@@ -215,6 +225,80 @@ namespace AwesomsseyEngine
             file.Close();
             Debug.Log("Game data saved!");
         }
+
+
+
+       public void LoadGame()
+        {
+            if (File.Exists(Application.persistentDataPath
+                           + "/OdditsseyData.oddt"))
+            {
+                BinaryFormatter bf = new BinaryFormatter();
+                FileStream file =
+                           File.Open(Application.persistentDataPath
+                           + "/OdditsseyData.oddt", FileMode.Open);
+                SaveStorage storage = (SaveStorage)bf.Deserialize(file);
+                file.Close();
+                ///LOAD STARTS !!!!!!!!!!
+
+                ///SceneManager.LoadSceneAsync("SampleScene"); ///LOAD SCENE FIRST In Game Menu From Continue!
+                ///Lcuky Jumps
+            luckyJump.luckyJumpMode = storage.luckyJumpModeS;
+            luckyJump.luckJMAX = storage.luckJMAXS; 
+            luckyJump.luckJCount = storage.luckJCountS;
+            luckyJump.yellowJump = storage.yellowJumpS;
+            luckyJump.blueJump = storage.blueJumpS;
+            luckyJump.greenJump = storage.greenJumpS;
+            luckyJump.redJump = storage.redJumpS;
+            luckyJump.bowJump = storage.bowJumpS;
+                ///Level Complete Bools 
+            gameEngine.orchardUnlocked = storage.orchardCompleteS;
+            gameEngine.carnevileUnlocked = storage.carnevileUnlockedS;
+                //MORE TO COME
+                ///Health
+                attaHealth.lifeCurrent = storage.lifeCurrentS;
+                attaHealth.currentPlayerHealth = storage.attaCurrentHealthS;
+                attaHealth.CurrentPlayerMaxHealth = storage.attaMAXHealthS;
+                attaHealth.healthUP0 = storage.healthUP0S;
+                attaHealth.healthUP1 = storage.healthUP1S;
+                attaHealth.healthUP2 = storage.healthUP2S;
+                attaHealth.healthUP3 = storage.healthUP3S;
+                attaHealth.healthUP4 = storage.healthUP4S;
+                attaHealth.healthUP5 = storage.healthUP5S;
+                attaHealth.healthUP6 = storage.healthUP6S;
+                attaHealth.healthUP7 = storage.healthUP7S;
+                attaHealth.healthUP8 = storage.healthUP8S;
+                ///
+                ///Inventory - Coins Too
+                attaCoins.coinsCurrent = storage.coinsCurrent;
+                inventory.item0AString = storage.item0AString;
+                inventory.item1AString = storage.item1AString;
+                inventory.item2AString = storage.item2AString;
+                inventory.item3AString = storage.item3AString;
+                inventory.item4AString = storage.item4AString;
+                inventory.item5AString = storage.item5AString;
+                inventory.noUpgradeA = storage.noUpgradeAS;
+                inventory.deepPocketsA = storage.deepPocketsAS;
+                inventory.baggyPocketsA = storage.baggyPocketsAS;
+                ///END Inven
+                ///Seeds
+                seeds.seedAmmoCurrent = storage.seedAmmoCurrentS;
+                seeds.seedAmmoMax = storage.seedAmmoMaxS;
+                seeds.ammoUp0 = storage.ammoUp0S;
+                seeds.ammoUp1 = storage.ammoUp1S;
+                seeds.ammoUp2 = storage.ammoUp2S;
+
+
+
+                Debug.Log("Game data loaded!");
+            }
+            else
+                Debug.LogError("There is no save data!");
+        }
+
+
+
+
     }
 
    
@@ -234,6 +318,7 @@ namespace AwesomsseyEngine
         [SerializeField] public float attaCurrentHealthS;
         [SerializeField] public float attaMAXHealthS;
         [SerializeField] public float jumpCount;
+        [SerializeField] public float  lifeCurrentS;
         [SerializeField] public bool healthUP0S; ///SAVE VAR
         [SerializeField] public bool healthUP1S; ///SAVE VAR
         [SerializeField] public bool healthUP2S; ///SAVE VAR
@@ -267,6 +352,7 @@ namespace AwesomsseyEngine
         [SerializeField] public bool ammoUp2S;  ///SAVE VAR - FEED TO GAMEENGNE
 
         [Header("LuckyJumps")]
+        [SerializeField] public bool luckyJumpModeS;
         [SerializeField] public bool yellowJumpS;///SAVE + LOAD 
         [SerializeField] public bool blueJumpS;///SAVE + LOAD 
         [SerializeField] public bool greenJumpS;///SAVE + LOAD 

@@ -12,7 +12,7 @@ namespace AwesomsseyEngine
     public class LuckyJump : MonoBehaviour
     {
         [Header("Luck Mode")]
-        [SerializeField] public bool luckyJumpMode;
+        [SerializeField] public bool luckyJumpMode;///SAVE
         [SerializeField] bool luckyJumpstate;
         [SerializeField] bool luckyJumpingDontExec;
         [SerializeField] float luckyJumpPower;
