@@ -219,6 +219,9 @@ namespace AwesomsseyEngine
             storage.ammoUp0S = seeds.ammoUp0;
             storage.ammoUp1S = seeds.ammoUp1;
             storage.ammoUp2S = seeds.ammoUp2;
+            storage.deviSeedsS = seeds.deviSeeds;
+            storage.slappingSeedsS = seeds.slappingSeeds;
+            storage.powerSeedsS = seeds.powerSeeds;
 
             ///END SAVE LOOP
             bf.Serialize(file, storage);
@@ -287,6 +290,9 @@ namespace AwesomsseyEngine
                 seeds.ammoUp0 = storage.ammoUp0S;
                 seeds.ammoUp1 = storage.ammoUp1S;
                 seeds.ammoUp2 = storage.ammoUp2S;
+                seeds.deviSeeds = storage.deviSeedsS;
+                seeds.slappingSeeds = storage.slappingSeedsS;
+                seeds.powerSeeds = storage.powerSeedsS;
 
 
 
@@ -350,6 +356,9 @@ namespace AwesomsseyEngine
         [SerializeField] public bool ammoUp0S;  ///SAVE VAR - FEED TO GAMEENGNE
         [SerializeField] public bool ammoUp1S;  ///SAVE VAR - FEED TO GAMEENGNE
         [SerializeField] public bool ammoUp2S;  ///SAVE VAR - FEED TO GAMEENGNE
+        [SerializeField] public bool deviSeedsS;
+        [SerializeField] public bool slappingSeedsS;
+        [SerializeField] public bool powerSeedsS;
 
         [Header("LuckyJumps")]
         [SerializeField] public bool luckyJumpModeS;

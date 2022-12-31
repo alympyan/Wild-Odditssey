@@ -32,9 +32,12 @@ namespace AwesomsseyEngine
         [Header("Land Scripts")]
         
         [SerializeField] ContexButtons contexButtons;
+        
 
         [Header("Level Bools")] ///FEED TO RESPECTIVE SCRIPTS
+        [SerializeField] public bool landRideStation;
         [SerializeField] public bool orchardLand;
+        [SerializeField] public bool carnevileLand;
      
         
 

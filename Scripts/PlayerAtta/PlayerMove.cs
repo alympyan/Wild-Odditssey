@@ -7,6 +7,10 @@ using UnityEngine;
 
 namespace AwesomsseyEngine
 {
+    /// <summary>
+    /// VelXMax = 4 OG 3
+    /// Slide = 150 OG 75
+    /// </summary>
     public class PlayerMove : MonoBehaviour
     {
         [Header("Player Vars")]

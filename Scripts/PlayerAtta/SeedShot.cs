@@ -36,8 +36,9 @@ namespace AwesomsseyEngine
         [SerializeField] Sprite deviOrange;
         [SerializeField] Sprite slappinBlue;
         [SerializeField] GameObject spawnObj;
-        [SerializeField] bool shootState;
-        [SerializeField] bool shootingDontSpawn;
+        [SerializeField] public bool shootState;
+        [SerializeField] public bool shootingDontSpawn;
+        [SerializeField] SpriteRenderer[] powerSeedColors;
 
         [Header("Scripts")]
         [SerializeField] PlayerMove playerMove;
@@ -63,12 +64,15 @@ namespace AwesomsseyEngine
             shootAnimation = GetComponent<Animation>();
             shootAnim = GetComponent<Animator>();
             seedAudio = GetComponent<AudioSource>();
+            powerSeedColors = GetComponentsInChildren<SpriteRenderer>();
            
         }
 
         // Update is called once per frame
         void Update()
         {///Check for Shoot Input, shootstate, the toggleDontSpawn, and > 0 ammo
+          
+
             if(Input.GetButtonDown("Shoot") && shootState == false && shootingDontSpawn == false && seedAmmoCurrent > 0) ///FUTURE BOOL FOR CONTEXT
             {
                 shootState = true;
@@ -90,24 +94,33 @@ namespace AwesomsseyEngine
                StartCoroutine(PowerSeed(powerSeeds));
 
             }
-            if (shootState == true && deviSeeds == true && slappingSeeds == false && shootingDontSpawn == false) ///DEVI
-            {
-                shootingDontSpawn = true;
-                shootAnimation.clip = orangeShotAnim;
-                StartCoroutine(PowerSeed(deviSeeds));
-            }
-            if (shootState == true && deviSeeds == false && slappingSeeds == true && shootingDontSpawn == false) ///SLAPPIN
-            {
-                shootingDontSpawn = true;
-                shootAnimation.clip = blueShotAnim;
-                StartCoroutine(PowerSeed(slappingSeeds));
-            }
+           // if (shootState == true && deviSeeds == true && slappingSeeds == false && shootingDontSpawn == false) ///DEVI
+            //{
+               // shootingDontSpawn = true;
+                //shootAnimation.clip = orangeShotAnim;
+               // StartCoroutine(PowerSeed(deviSeeds));
+           // }
+            //if (shootState == true && deviSeeds == false && slappingSeeds == true && shootingDontSpawn == false) ///SLAPPIN
+           // {
+              //  shootingDontSpawn = true;
+               // shootAnimation.clip = blueShotAnim;
+               // StartCoroutine(PowerSeed(slappingSeeds));
+            //}
         }
 
         IEnumerator PowerSeed(bool seed)///PROJECTILES ARE ALL IENUMERATORS FOR DELYA SHOT PURPOSES
         {
             shootingDontSpawn = true; ///SET THIS BOOL TO STOP SPAMMING
+            playerMove.attacking = true;
             //shootAnimation.Play();
+            if (deviSeeds == true)
+            {
+                powerSeedColors[4].enabled = true;
+            }
+            if (slappingSeeds == true)
+            {
+                powerSeedColors[5].enabled = true;
+            }
             shootAnim.SetBool("Shoot", true);///CURRENT ANIMATION IMPLEMENTAITO - MIGHT SWITCH TO ANIMATION CLIPS
             if (transform.right == Vector3.right) { rightDir = 1f; }///GATHER TRANSFORM RIGHT
           
@@ -146,6 +159,7 @@ namespace AwesomsseyEngine
             yield return new WaitForSeconds(shootDelayTime);///ENSURE SEED DELAY TIME SETUP
             shootState = false;
             shootingDontSpawn = false; ///RESET BOOL
+            playerMove.attacking = false;
 
 
         }
@@ -179,6 +193,14 @@ namespace AwesomsseyEngine
         {
             shootAnim.SetBool("Shoot", false);
             shootAnimation.Stop();
+            if (deviSeeds == true)
+            {
+                powerSeedColors[4].enabled = false;
+            }
+            if (slappingSeeds == true)
+            {
+                powerSeedColors[5].enabled = false;
+            }
         }
     }
 

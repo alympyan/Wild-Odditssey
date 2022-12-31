@@ -57,18 +57,7 @@ namespace AwesomsseyEngine
             }
         }
 
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.tag == "Player")
-            {
-                dropped = true;
-            }
-            if(breakMode == true)
-            {
-                myAnim.SetBool("Break", true);
-            }
-         
-        }
+      
         private void OnTriggerStay2D(Collider2D collision)
         {
             if (collision.tag == "Player")
