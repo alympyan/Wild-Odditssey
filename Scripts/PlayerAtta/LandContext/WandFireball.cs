@@ -8,8 +8,8 @@ namespace AwesomsseyEngine
     {
         [SerializeField] float lifeTimer;
         [SerializeField] bool destroyState;
-        [SerializeField] bool lightState;
-        [SerializeField] Animator myAnim;
+        [SerializeField] public bool lightState;
+        [SerializeField] public Animator myAnim;
         [SerializeField] Rigidbody2D myRig;
         [SerializeField] AudioSource myAud;
         [SerializeField] int dmgTo;
@@ -26,7 +26,23 @@ namespace AwesomsseyEngine
         void Update()
         {
             lifeTimer -= Time.deltaTime;
+            Physics2D.SyncTransforms();
+            if (lifeTimer <= 0 )
+            {
+                myAnim.SetBool("Death", true);
+            }
+            if(lightState == true)
+            {
+                myRig.constraints = RigidbodyConstraints2D.FreezeAll;
+                myRig.velocity = Vector2.zero;
+                lifeTimer = 1;
+                myAnim.SetBool("Death", true);
+            }
+        }
 
+        void DestroyMe()
+        {
+            Destroy(gameObject);
         }
     }
 }

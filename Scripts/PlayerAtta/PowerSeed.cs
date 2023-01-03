@@ -52,6 +52,7 @@ namespace AwesomsseyEngine
         // Update is called once per frame
         void Update()
         {
+
             lifeTimer -= Time.deltaTime;
             if(lifeTimer<= 0)
             {
@@ -71,7 +72,10 @@ namespace AwesomsseyEngine
         }
 
 
-
+        private void LateUpdate()
+        {
+            Physics2D.SyncTransforms();
+        }
 
         private void OnTriggerEnter2D(Collider2D collision)///PROJECTILES TRIGGER SO BOX DONT PUSH OBJECTS
         {

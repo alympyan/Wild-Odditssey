@@ -25,6 +25,11 @@ namespace AwesomsseyEngine
         [SerializeField] int rightDir;
         [SerializeField] bool carnEnabled;
         [SerializeField] LevelGuide levelGuide;
+        [SerializeField] Animator attaAnim;
+        [SerializeField] public int shotAmount;
+        [SerializeField] int shotMax;
+        [SerializeField] public int ticketCount;
+        [SerializeField] public int tickeMax;
 
 
         // Start is called before the first frame update
@@ -34,6 +39,7 @@ namespace AwesomsseyEngine
             playerMove = GetComponent<PlayerMove>();
             seedShot = GetComponent<SeedShot>();
             wandSR = GetComponentsInChildren<SpriteRenderer>();
+            attaAnim = GetComponent<Animator>();
         }
 
         // Update is called once per frame
@@ -48,7 +54,10 @@ namespace AwesomsseyEngine
             {
                 carnEnabled = false;
             }
-
+            if(shotAmount >= shotMax) ///LimitShots
+            {
+                shotAmount = shotMax;
+            }
             if (transform.right == Vector3.right)
             {
                 rightDir = 1;
@@ -60,12 +69,15 @@ namespace AwesomsseyEngine
 
             if (carnEnabled == true)///If Enabled By Level Script
             {
-                if (Input.GetButtonDown("Throw") && wandPressed == false && isShooting == false && playerMove.attacking == false && seedShot.shootState == false)
+                if (Input.GetButtonDown("Throw") && wandPressed == false && isShooting == false && playerMove.attacking == false && seedShot.shootState == false && playerMove.slideState == false && shotAmount > 0)
                 {
                     wandPressed = true;
 
                 }
             }
+
+
+            
         }
 
         private void FixedUpdate()
@@ -82,6 +94,8 @@ namespace AwesomsseyEngine
             playerMove.attacking = true;
             wandSR[6].sprite = wandSprite;
             wandSR[6].enabled = true; /// Enable Wand Sprite 6
+            attaAnim.SetBool("Shoot", true);
+            shotAmount -= 1;
             // if(rightDir == 1)
             //{
             //wandProjSpawnedObj = Instantiate(wandToSpawn, transform.position + shootOff * rightDir, transform.rotation);
@@ -97,8 +111,10 @@ namespace AwesomsseyEngine
             ///Aduio And Future Effects
             ///
             yield return new WaitForSeconds(delayTimer);
+            attaAnim.SetBool("Shoot", false);
             isShooting = false;
             playerMove.attacking = false;
+            wandPressed = false;
             wandSR[6].enabled = false;
         }
     }

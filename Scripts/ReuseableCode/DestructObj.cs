@@ -85,6 +85,21 @@ namespace AwesomsseyEngine
 
                 spawnItem.spawningMode = true;
             }
+            if (collision.name.Contains("FireBall") && breakMode == false)
+            {
+                print("dest TailKiss hit");
+                breakMode = true;
+                if (animationMode == true)
+                {
+                    destAnim.SetBool("Death", true);
+                }
+                if (particleMode == true)
+                {
+
+                }
+
+                spawnItem.spawningMode = true;
+            }
 
 
         }
